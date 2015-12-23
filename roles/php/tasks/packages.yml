@@ -1,0 +1,9 @@
+# File: roles/php/tasks/packages.yml
+---
+- name: 'Install PHP'
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: packages_php
+  tags:
+    - packages

@@ -1,0 +1,36 @@
+server {
+	server_name {{ item.name }};
+	listen 80;
+	listen [::]:80;
+	autoindex off;
+	root /var/www/{{ item.user }}/www/{{ item.name }};
+	access_log /var/log/nginx/{{ item.name }}/access.log;
+	error_log /var/log/nginx/{{ item.name }}/error.log;
+
+	location = /favicon.ico {
+		log_not_found off;
+		access_log off;
+	}
+
+	location = /robots.txt {
+		allow all;
+		log_not_found off;
+		access_log off;
+	}
+
+	location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+		expires max;
+		log_not_found off;
+	}
+}
+{% if item.serveralias %}
+
+server {
+	server_name{% for i in item.serveralias %} {{ i }}{% endfor %};
+	listen 80;
+	listen [::]:80;
+	rewrite ^/(.*)$ http://{{ item.name }}/$1 permanent;
+	access_log off;
+	error_log /var/log/nginx/{{ item.name }}/error.log;
+}
+{% endif %}

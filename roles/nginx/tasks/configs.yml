@@ -1,0 +1,35 @@
+# File: roles/nginx/tasks/configs.yml
+---
+- name: 'Create Nginx template for Nginx+Apache website'
+  template:
+    src: "{{ item.tmpl_nginx | default('lamp') }}.j2"
+    dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+  with_items: all_websites
+  notify:
+    - Reload nginx
+  tags:
+    - configuration
+    - nginx
+
+- name: 'Create Nginx symlink for Nginx+Apache website'
+  file:
+    state: "{{ item.state | default('link') }}"
+    path: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+    src: "../sites-available/{{ item.name }}.conf"
+  with_items: all_websites
+  notify:
+    - Reload nginx
+  tags:
+    - configuration
+    - nginx
+
+- name: 'Create Nginx log directory for Nginx+Apache website'
+  file:
+    state: directory
+    path: "/var/log/nginx/{{ item.name }}"
+    owner: 'www-data'
+    group: 'adm'
+    mode: 0750
+  with_items: all_websites
+  tags:
+    - nginx

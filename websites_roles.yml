@@ -1,0 +1,15 @@
+# File: websites_roles.yml
+#
+# Usage example:
+---
+- hosts: all
+  sudo: yes
+  roles:
+    - user_access
+    - websites_common
+    - { role: nginx, when: "'nginx' in roles" }
+    - { role: apache, when: "'apache' in roles" }
+    - { role: uwsgi, when: "'uwsgi' in roles" }
+    - { role: postgresql, when: "'postgresql' in roles" }
+    - { role: mysql, when: "'mysql' in roles" }
+    - { role: pip, when: "'pip' in roles" }

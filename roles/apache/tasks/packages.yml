@@ -1,0 +1,9 @@
+# File: roles/postgresql/tasks/packages.yml
+---
+- name: 'Install Apache'
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: packages_apache
+  tags:
+    - packages

@@ -1,0 +1,9 @@
+# File: roles/uwsgi/tasks/packages.yml
+---
+- name: 'Install packages for uwsgi'
+  apt:
+    pkg: "{{item}}"
+    state: present
+  tags:
+    - packages
+  with_items: packages_uwsgi

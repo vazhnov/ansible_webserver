@@ -1,0 +1,6 @@
+# File: roles/websites_common/tasks/main.yml
+---
+- include: users_groups.yml
+- include: copy_user_files.yml
+- include: packages.yml
+- include: unpack_backup.yml

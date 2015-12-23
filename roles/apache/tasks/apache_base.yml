@@ -1,0 +1,38 @@
+# File: roles/apache/tasks/apache_base.yml
+---
+- file:
+    state: absent
+    dest: '/etc/apache2/sites-enabled/000-default.conf'
+  tags:
+    - configuration
+
+- file:
+    state: absent
+    dest: '/etc/apache2/mods-enabled/autoindex.load'
+  tags:
+    - configuration
+
+- file:
+    state: absent
+    dest: '/etc/apache2/mods-enabled/autoindex.conf'
+  tags:
+    - configuration
+
+- file:
+    state: link
+    dest: '/etc/apache2/mods-enabled/rewrite.load'
+    src: '../mods-available/rewrite.load'
+  tags:
+    - configuration
+
+- copy:
+    dest: '/etc/apache2/ports.conf'
+    src: 'ports.conf'
+  tags:
+    - configuration
+
+- copy:
+    dest: '/etc/logrotate.d/apache2'
+    src: 'logrotate_apache2'
+  tags:
+    - configuration

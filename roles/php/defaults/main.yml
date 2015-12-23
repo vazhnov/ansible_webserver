@@ -1,0 +1,6 @@
+# File: roles/php/defaults/main.yml
+---
+packages_php:
+  - libapache2-mod-php5
+  - php5-gd
+  - php5-mysql

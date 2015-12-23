@@ -1,0 +1,9 @@
+# File: roles/mysql/tasks/packages.yml
+---
+- name: 'Install MySQL'
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: packages_mysql
+  tags:
+    - packages

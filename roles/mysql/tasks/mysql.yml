@@ -1,0 +1,44 @@
+# File: roles/mysql/tasks/mysql.yml
+---
+- name: 'Create Application Database'
+  mysql_db:
+    state: present
+    name: "{{ item.user[:16] }}"
+  when: item.db_type == 'mysql'
+    and item.mysqlpass is defined
+  with_items: all_websites
+  tags:
+    - mysql
+
+- name: 'Create Application DB User'
+  mysql_user:
+    state: present
+    name: "{{ item.user[:16] }}"
+    password: "{{ item.mysqlpass }}"
+    priv: "{{ item.user[:16] }}.*:ALL"
+    host: '%'
+  when: item.db_type == 'mysql'
+    and item.mysqlpass is defined
+  with_items: all_websites
+  register: reg_mysql
+  tags:
+    - mysql
+
+- name: 'Upload DB backup'
+  become_user: "{{ item.item.user }}"
+  copy:
+    src: "{{ backup_path }}/{{ item.item.name }}.sql.gz"
+    dest: '/tmp/'
+  when: item.changed
+  with_items: reg_mysql.results
+
+
+- name: 'Import DB'
+  mysql_db:
+    state: import
+    name: "{{ item.item.user[:16] }}"
+    target: "/tmp/{{ item.item.name }}.sql.gz"
+  when: item.changed
+  with_items: reg_mysql.results
+  tags:
+    - mysql

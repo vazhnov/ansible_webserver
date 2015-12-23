@@ -1,0 +1,6 @@
+---
+packages_pip:
+  - python-imaging
+  - python-psycopg2
+  - python-pip
+  - python-virtualenv

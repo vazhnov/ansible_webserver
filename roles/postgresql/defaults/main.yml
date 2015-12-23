@@ -1,0 +1,4 @@
+---
+packages_postgresql:
+  - postgresql
+  - python-psycopg2

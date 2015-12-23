@@ -1,0 +1,68 @@
+limit_req_zone $binary_remote_addr zone=dos_{{ item.name }}:2m rate=3r/s;
+
+server {
+	server_name {{ item.name }}{% if item.serveralias is defined %}{% for i in item.serveralias %} {{ i }}{% endfor %}{% endif %};
+	listen 80;
+	listen [::]:80;
+	rewrite ^/(.*)$ https://{{ item.name }}/$1 permanent;
+	access_log off;
+	error_log /var/log/nginx/{{ item.name }}/error.log;
+}
+
+server {
+	listen 443 ssl spdy;
+	listen [::]:443 ssl spdy;
+	server_name {{ item.name }};
+	root /var/www/{{ item.user }}/www/{{ item.name }};
+	access_log /var/log/nginx/{{ item.name }}/access.log;
+	error_log /var/log/nginx/{{ item.name }}/error.log;
+
+	ssl_certificate /etc/ssl/private/{{ item.name }}_chain.crt;
+	ssl_certificate_key /etc/ssl/private/{{ item.name }}.key;
+
+	ssl_stapling on;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+	ssl_ciphers kEECDH+AES128:kEECDH:kEDH:-3DES:kRSA+AES128:kEDH+3DES:DES-CBC3-SHA:!RC4:!aNULL:!eNULL:!MD5:!EXPORT:!LOW:!SEED:!CAMELLIA:!IDEA:!PSK:!SRP:!SSLv2;
+	ssl_prefer_server_ciphers on;
+	ssl_dhparam /etc/nginx/dhparam.pem;
+	ssl_session_cache shared:SSL:10m;
+	ssl_session_timeout 20m;
+
+	location / {
+		limit_req zone=dos_{{ item.name }} burst=10 nodelay;
+		proxy_set_header X-Real-IP  $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		proxy_set_header Host $host;
+		proxy_set_header SERVER_PROTOCOL $server_protocol;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header HTTPS "on";
+		proxy_pass http://127.0.0.1:8080;
+	}
+
+	location = /favicon.ico {
+		log_not_found off;
+		access_log off;
+	}
+
+	location = /robots.txt {
+		allow all;
+		log_not_found off;
+		access_log off;
+	}
+
+	location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+		expires max;
+		log_not_found off;
+	}
+}
+{% if item.serveralias is defined %}
+
+server {
+	server_name{% for i in item.serveralias %} {{ i }}{% endfor %};
+	listen 443 ssl spdy;
+	listen [::]:443 ssl spdy;
+	rewrite ^/(.*)$ https://{{ item.name }}/$1 permanent;
+	access_log off;
+	error_log /var/log/nginx/{{ item.name }}/error.log;
+}
+{% endif %}

@@ -1,0 +1,19 @@
+<VirtualHost 127.0.0.1:8080>
+	DocumentRoot "/var/www/{{ item.user }}/www/{{ item.name }}/"
+	ServerName {{ item.name }}
+	{% if item.serveralias is defined %}ServerAlias{% for i in item.serveralias %} {{ i }}{% endfor %} {% endif %}
+
+	CustomLog /var/log/apache2/{{ item.name }}/access.log vhost_combined
+	ErrorLog /var/log/apache2/{{ item.name }}/error.log
+{% if item.php_admin_value is defined %}
+{% for i in item.php_admin_value %}
+	php_admin_value {{ i }}
+{% endfor %}
+{% endif %}
+	<IfModule mpm_itk_module>
+		AssignUserId {{ item.user }} {{ item.user }}
+	</IfModule>
+	<Directory "/var/www/{{ item.user }}/www/{{ item.name }}">
+		AllowOverride All
+	</Directory>
+</VirtualHost>

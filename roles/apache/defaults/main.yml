@@ -1,0 +1,6 @@
+# File: roles/apache/defaults/main.yml
+---
+packages_apache:
+  - libapache2-mod-php5
+  - apache2-mpm-itk
+  - libapache2-mod-rpaf

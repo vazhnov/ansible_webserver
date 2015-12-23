@@ -1,0 +1,10 @@
+# File: roles/pip/tasks/packages.yml
+---
+- name: 'Install packages for Django'
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    install_recommends: no
+  tags:
+    - packages
+  with_items: packages_pip

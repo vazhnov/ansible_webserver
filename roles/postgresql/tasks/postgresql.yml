@@ -1,0 +1,40 @@
+---
+- name: 'Create PostgreSQL user'
+  become_user: 'postgres'
+  postgresql_user:
+    name: "{{ item.user }}"
+    #password: '123'
+    #priv: ALL
+  with_items: all_websites
+  when: item.db_type == 'postgresql'
+
+- name: 'Create PostgreSQL database'
+  become_user: 'postgres'
+  postgresql_db:
+    name: "{{ item.user }}"
+    owner: "{{ item.user }}"
+    encoding: 'UTF-8'
+    template: 'template0'
+  with_items: all_websites
+  register: reg_postgres
+  when: item.db_type == 'postgresql'
+
+- name: 'Upload DB backup'
+  become_user: "{{ item.item.user }}"
+  copy:
+    src: "{{ backup_path }}/{{ item.item.name }}.sql.gz"
+    dest: '/tmp/'
+  when: item.changed
+  with_items: reg_postgres.results
+
+- name: 'Unpack dump'
+  become_user: "{{ item.item.user }}"
+  shell: "gunzip --force /tmp/{{ item.item.name }}.sql.gz"
+  when: item.changed
+  with_items: reg_postgres.results
+
+- name: 'Import sql dump to PostgreSQL'
+  become_user: "{{ item.item.user }}"
+  shell: "psql {{ item.item.user }} -f /tmp/{{ item.item.name }}.sql"
+  when: item.changed
+  with_items: reg_postgres.results

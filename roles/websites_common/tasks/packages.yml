@@ -1,0 +1,24 @@
+# File: roles/websites_common/tasks/packages.yml
+---
+- name: 'Set APT proxy'
+  template:
+    src: '000apt-cacher-ng-proxy.j2'
+    dest: '/etc/apt/apt.conf.d/000apt-cacher-ng-proxy'
+  when: apt_proxy is defined
+  tags:
+    - packages
+
+- name: 'APT update once in day'
+  apt:
+    update_cache: yes
+    cache_valid_time: 43200
+  tags:
+    - packages
+
+- name: 'Safe-upgrade packages on new instance'
+  apt:
+    upgrade: safe
+    #dpkg_options: 'force-confold,force-confdef'
+  when: apt_upgrade is defined
+  tags:
+    - packages

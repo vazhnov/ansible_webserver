@@ -1,0 +1,8 @@
+# File: group_vars/all/backup_path.yml
+#
+# Local path to backups, like:
+# {{ backup_path }}/example.com.requirements.txt
+# {{ backup_path }}/example.com.sql.gz
+# {{ backup_path }}/example.com.tgz
+---
+backup_path: '/backup/websites'

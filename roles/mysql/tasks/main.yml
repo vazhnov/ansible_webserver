@@ -1,0 +1,4 @@
+# File: roles/postgresql/tasks/main.yml
+---
+- include: packages.yml
+- include: mysql.yml

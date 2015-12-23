@@ -1,0 +1,38 @@
+# File: roles/apache/tasks/apache_websites.yml
+---
+- name: 'Create Apache template for Nginx+Apache website'
+  template:
+    src: "apache/{{ item.tmpl_apache }}.j2"
+    dest: "/etc/apache2/sites-available/{{ item.name }}.conf"
+  when: item.tmpl_apache is defined
+  with_items: all_websites
+  notify:
+    - Reload apache
+  tags:
+    - configuration
+    - apache
+
+- name: 'Create Apache symlink for Nginx+Apache website'
+  file:
+    state: "{{ item.state | default('link') }}"
+    path: "/etc/apache2/sites-enabled/{{ item.name }}.conf"
+    src: "../sites-available/{{ item.name }}.conf"
+  when: item.tmpl_apache is defined
+  with_items: all_websites
+  notify:
+    - Reload apache
+  tags:
+    - configuration
+    - apache
+
+- name: 'Create Apache log directory for Nginx+Apache website'
+  file:
+    state: directory
+    path: "/var/log/apache2/{{ item.name }}"
+    owner: "{{ item.user }}"
+    group: 'adm'
+    mode: 0750
+  when: item.tmpl_apache is defined
+  with_items: all_websites
+  tags:
+    - apache

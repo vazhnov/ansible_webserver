@@ -1,0 +1,4 @@
+# File: roles/pip/tasks/main.yml
+---
+- include: packages.yml
+- include: pip.yml

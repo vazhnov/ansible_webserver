@@ -1,0 +1,26 @@
+---
+- name: 'Check remote website directory'
+  stat:
+    path: "{{ web_home_path }}/{{ item.user }}/www/{{ item.name }}"
+    follow: True
+    get_md5: False
+  with_items: all_websites
+  register: www_stat
+
+- name: 'Create root directory for website'
+  file:
+    state: directory
+    path: "{{ web_home_path }}/{{ item.item.user }}/www/{{ item.item.name }}"
+    owner: "{{ item.item.user }}"
+    group: 'www-data'
+    mode: 0750
+  when: not item.stat.exists
+  with_items: www_stat.results
+
+- name: 'Unpack backup'
+  become_user: "{{ item.item.user }}"
+  unarchive:
+    src: "{{ backup_path }}/{{ item.item.name }}.tgz"
+    dest: "{{ web_home_path }}/{{ item.item.user }}/www/{{ item.item.name }}"
+  when: not item.stat.exists
+  with_items: www_stat.results

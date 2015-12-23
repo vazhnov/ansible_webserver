@@ -1,0 +1,38 @@
+---
+- name: 'Copy requirements.txt'
+  copy:
+    src: "{{ item.pip_requirements_file }}"
+    dest: "{{ web_home_path }}/{{ item.user }}/requirements.txt"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: 0640
+  when: item.pip_requirements_file is defined
+  with_items: all_websites
+  register: reg_requirements
+
+- name: 'pip install if requirements.txt was changed'
+  become_user: "{{ item.item.user }}"
+  pip:
+    requirements: "{{ web_home_path }}/{{ item.item.user }}/requirements.txt"
+    extra_args: '--user'
+  when: item.item.pip_requirements_file is defined and item.changed
+  with_items: reg_requirements.results
+
+- name: 'Create requirements.txt from pip_requirements_list'
+  template:
+    src: requirements.txt.j2
+    dest: "{{ web_home_path }}/{{ item.user }}/requirements.txt"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: 0640
+  when: item.pip_requirements_list is defined
+  with_items: all_websites
+  register: reg_requirements_list
+
+- name: 'pip install if requirements.txt was changed from list'
+  become_user: "{{ item.item.user }}"
+  pip:
+    requirements: "{{ web_home_path }}/{{ item.item.user }}/requirements.txt"
+    extra_args: '--user'
+  when: item.item.pip_requirements_list is defined and item.changed
+  with_items: reg_requirements_list.results

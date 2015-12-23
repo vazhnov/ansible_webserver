@@ -1,0 +1,5 @@
+# File: roles/nginx/tasks/main.yml
+---
+- include: packages.yml
+- include: base_files_nginx.yml
+- include: configs.yml

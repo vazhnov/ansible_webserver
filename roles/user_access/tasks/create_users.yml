@@ -1,0 +1,38 @@
+# File: roles/user_access/tasks/create_users.yml
+---
+- name: 'Create user group'
+  group:
+    state: present
+    name: "{{ item.key }}"
+  with_dict: users
+  tags:
+    - create_groups
+
+- name: 'Create user account'
+  user:
+    name: "{{ item.key }}"
+    group: "{{ item.key }}"
+    groups: "{{ item.value.groups }}"
+    comment: "{{ item.value.comment }}"
+    shell: "{{ item.value.shell|default('/bin/bash') }}"
+  with_dict: users
+  tags:
+    - create_users
+
+- name: 'Check user directory permissions 0750'
+  file:
+    state: directory
+    dest: "/home/{{ item.key }}"
+    mode: 0750
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+  with_dict: users
+
+- name: 'Create user ssh directories and set permissions 0700'
+  file:
+    state: directory
+    dest: "/home/{{ item.key }}/.ssh"
+    mode: 0700
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+  with_dict: users

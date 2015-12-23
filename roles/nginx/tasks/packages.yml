@@ -1,0 +1,11 @@
+# File: roles/nginx/tasks/packages.yml
+---
+- name: 'Install packages for Nginx'
+  apt:
+    pkg: "{{item}}"
+    state: present
+    install_recommends: no
+  tags:
+    - packages
+  with_items:
+    - nginx-full

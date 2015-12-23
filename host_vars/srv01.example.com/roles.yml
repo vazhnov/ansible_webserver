@@ -1,0 +1,6 @@
+---
+roles:
+  - nginx
+  - uwsgi
+  - postgresql
+  - pip

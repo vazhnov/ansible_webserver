@@ -1,0 +1,30 @@
+# File: roles/lamp/tasks/base_files_nginx.yml
+---
+- name: 'Remove /etc/nginx/sites-enabled/default'
+  file:
+    state: absent
+    dest: '/etc/nginx/sites-enabled/default'
+  tags:
+    - config
+
+- name: 'Copy /etc/nginx/sites-available/default_vhost_nginx.conf'
+  copy:
+    dest: '/etc/nginx/sites-available/default_vhost_nginx.conf'
+    src: 'default_vhost_nginx.conf'
+  tags:
+    - config
+
+- name: 'Create Nginx symlink for default_vhost_nginx.conf'
+  file:
+    state: link
+    path: '/etc/nginx/sites-enabled/default_vhost_nginx.conf'
+    src: '../sites-available/default_vhost_nginx.conf'
+  tags:
+    - config
+
+- name: 'Copy /etc/logrotate.d/nginx'
+  copy:
+    dest: '/etc/logrotate.d/nginx'
+    src: 'logrotate_nginx'
+  tags:
+    - config

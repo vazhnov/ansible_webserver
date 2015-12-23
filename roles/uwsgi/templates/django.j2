@@ -1,0 +1,7 @@
+[uwsgi]
+chdir=/var/www/{{ item.user }}/www/{{ item.name }}/
+file=/var/www/{{ item.user }}/www/{{ item.name }}/boot_keys/wsgi.py
+#logto=/var/log/uwsgi/app/{{ item.name }}
+#touch-reload=/var/www/{{ item.user }}/www/{{ item.name }}/reload
+uid={{ item.user }}
+gid=www-data

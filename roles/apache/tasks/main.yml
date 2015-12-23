@@ -1,0 +1,5 @@
+# File: roles/postgresql/tasks/main.yml
+---
+- include: packages.yml
+- include: apache_base.yml
+- include: apache_websites.yml

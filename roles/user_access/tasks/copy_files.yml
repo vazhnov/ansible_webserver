@@ -1,0 +1,41 @@
+# File: roles/user_access/tasks/copy_files.yml
+---
+- name: 'Create empty local dirs first_files (only once)'
+  file:
+    state: directory
+    path: "{{ playbook_dir }}/roles/user_access/files/first_files/{{ item.key }}"
+  delegate_to: 127.0.0.1
+  sudo: false
+  always_run: yes
+  run_once: yes
+  no_log: yes
+  with_dict: users
+
+- name: 'Create empty local dirs replace_files (only once)'
+  file:
+    state: directory
+    path: "{{ playbook_dir }}/roles/user_access/files/replace_files/{{ item.key }}"
+  delegate_to: 127.0.0.1
+  sudo: false
+  always_run: yes
+  run_once: yes
+  no_log: yes
+  with_dict: users
+
+- name: 'Copy files to home directory (force: No)'
+  copy:
+    src: "first_files/{{ item.key }}/"
+    dest: "{{ item.value.home|default('/home/' + item.key) }}"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    force: No
+  with_dict: users
+
+- name: 'Copy files to home directory (force: Yes)'
+  copy:
+    src: "replace_files/{{ item.key }}/"
+    dest: "{{ item.value.home|default('/home/' + item.key) }}"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    force: Yes
+  with_dict: users
