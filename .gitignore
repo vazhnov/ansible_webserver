@@ -1,0 +1,5 @@
+# hosts/* are for the local tests inventory
+hosts/
+tmp/
+group_vars/local-*
+host_vars/
