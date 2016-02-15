@@ -7,6 +7,15 @@ server {
 	access_log /var/log/nginx/{{ item.name }}/access.log;
 	error_log /var/log/nginx/{{ item.name }}/error.log;
 
+	gzip on;
+	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
+{% if item.nginx_root_options is defined %}
+
+{% for i in item.nginx_root_options %}
+	{{ i }};
+{% endfor %}
+{% endif %}
+
 	location = /favicon.ico {
 		log_not_found off;
 		access_log off;

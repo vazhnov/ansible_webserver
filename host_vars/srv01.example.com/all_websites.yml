@@ -18,6 +18,8 @@ all_websites:
 - name: wordpress.example.com
   tmpl_apache: django
   tmpl_nginx: django
+  nginx_root_options:
+    - client_max_body_size 32m
   # For MySQL, used only first 16 symbols of 'user'
   user: wordpressexamplecom
   db_type: mysql
