@@ -1,0 +1,20 @@
+# File: roles/websites_common/tasks/ntp.yml
+---
+- name: 'Install ntp'
+  apt:
+    pkg: ntp
+    state: present
+  tags:
+    - ntp
+
+- name: 'Copy /etc/ntp.conf'
+  template:
+    src: 'ntp.conf'
+    dest: '/etc/ntp.conf'
+    owner: root
+    group: root
+    mode: 0644
+  when: ntp_list is defined
+  tags:
+    - ntp
+    - configuration
