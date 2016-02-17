@@ -2,4 +2,7 @@
 hosts/
 tmp/
 group_vars/local-*
+group_vars/all/users.yml
 host_vars/
+roles/user_access/files/first_files/
+roles/user_access/files/replace_files/
