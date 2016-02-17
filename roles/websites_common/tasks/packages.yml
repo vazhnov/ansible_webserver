@@ -20,7 +20,7 @@
     pkg: "{{ item }}"
     state: present
     install_recommends: no
-  with_items: common_packages
+  with_items: packages_common
   tags:
     - packages
 

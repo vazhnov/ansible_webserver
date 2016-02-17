@@ -5,7 +5,7 @@
     pkg: "{{item}}"
     state: present
     install_recommends: no
-  tags:
-    - packages
   with_items:
     - nginx-full
+  tags:
+    - packages

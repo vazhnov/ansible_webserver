@@ -5,6 +5,6 @@
     pkg: "{{ item }}"
     state: present
     install_recommends: no
+  with_items: packages_pip
   tags:
     - packages
-  with_items: packages_pip

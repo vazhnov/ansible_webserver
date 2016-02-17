@@ -4,7 +4,7 @@
 # They can replaced by distributive-specific values, for example, from vars/os_Ubuntu_14.04.yml (see tasks/main.yml)
 ---
 apt_upgrade: False
-common_packages:
+packages_common:
   - ntp
   - cron
   - mc

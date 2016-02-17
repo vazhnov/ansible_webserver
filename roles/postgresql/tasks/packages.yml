@@ -1,5 +1,6 @@
 # File: roles/postgresql/tasks/packages.yml
 ---
+# Must be installed before PostgreSQL
 - name: 'Install locales-all'
   apt:
     pkg: 'locales-all'
