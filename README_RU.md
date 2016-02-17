@@ -39,6 +39,10 @@ users:
 * В ней создайте .yml файл со списком ролей для сервера, пример в [host_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
 * Также создайте .yml файл со списком `all_websites`. Пример есть в [host_vars/srv01.example.com/all_websites.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/all_websites.yml).
 
+## Полезные команды
+
+* `git ls-files --ignored --exclude-standard` — посмотреть список игнорируемых файлов;
+
 ## Полезные переменные для отдельных серверов/групп
 
 * `apt_proxy: "http://example.com:3142"` — если задана, будет создан файл `/etc/apt/apt.conf.d/000apt-cacher-ng-proxy`;
