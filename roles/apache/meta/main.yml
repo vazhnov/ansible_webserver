@@ -1,0 +1,4 @@
+# File: roles/apache/meta/main.yml
+---
+dependencies:
+- { role: websites_common }

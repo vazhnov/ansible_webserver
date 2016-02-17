@@ -1,0 +1,4 @@
+# File: roles/pip/meta/main.yml
+---
+dependencies:
+- { role: websites_common }

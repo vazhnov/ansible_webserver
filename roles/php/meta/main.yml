@@ -1,0 +1,4 @@
+# File: roles/php/meta/main.yml
+---
+dependencies:
+- { role: websites_common }
