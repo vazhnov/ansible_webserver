@@ -1,7 +1,15 @@
 # File: roles/websites_common/tasks/main.yml
 ---
+- name: 'Include/replace distributive-specific variables'
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "os_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
+    - "os_{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+    - "os_{{ ansible_distribution }}.yml"
+    - empty.yml
+
 - include: users_groups.yml
-- include: ntp.yml
 - include: copy_user_files.yml
 - include: packages.yml
+- include: ntp.yml
 - include: unpack_backup.yml

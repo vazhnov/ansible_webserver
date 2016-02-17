@@ -1,0 +1,13 @@
+# File: roles/websites_common/defaults/main.yml
+#
+# This is default variables values.
+# They can replaced by distributive-specific values, for example, from vars/os_Ubuntu_14.04.yml (see tasks/main.yml)
+---
+apt_upgrade: False
+common_packages:
+  - ntp
+  - cron
+  - mc
+  - unzip
+  - zip
+  - curl

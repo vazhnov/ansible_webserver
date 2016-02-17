@@ -15,10 +15,19 @@
   tags:
     - packages
 
+- name: 'Install common packages'
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    install_recommends: no
+  with_items: common_packages
+  tags:
+    - packages
+
 - name: 'Safe-upgrade packages on new instance'
   apt:
     upgrade: safe
     #dpkg_options: 'force-confold,force-confdef'
-  when: apt_upgrade is defined
+  when: apt_upgrade|bool
   tags:
     - packages
