@@ -1,11 +1,5 @@
-# File: roles/websites_common/tasks/users_groups.yml
+# File: roles/websites_common/tasks/users_groups_web.yml
 ---
-- name: 'Grab the user list'
-  shell: "cut -d: -f1 /etc/passwd"
-  changed_when: False
-  always_run: yes
-  register: passwd
-
 - name: 'Create directory {{ web_home_path }}'
   file:
     state: directory
@@ -14,13 +8,13 @@
     group: 'root'
     mode: 0755
 
-- name: 'Create group account for Nginx+Apache website'
+- name: 'Create group account for websites'
   group:
     state: present
     name: "{{ item.user }}"
   with_items: all_websites
 
-- name: 'Create user account for Nginx+Apache website'
+- name: 'Create user account for websites'
   user:
     state: present
     name: "{{ item.user }}"
@@ -28,10 +22,9 @@
     home: "{{ web_home_path }}/{{ item.user }}"
     move_home: no
     comment: "{{ item.name }}"
-  when: item.user not in passwd.stdout_lines
   with_items: all_websites
 
-- name: 'Create user directory www for Nginx+Apache website'
+- name: 'Create user directory www for websites'
   file:
     state: directory
     path: "{{ web_home_path }}/{{ item.user }}/www"

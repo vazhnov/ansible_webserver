@@ -22,7 +22,7 @@
   no_log: yes
   with_items: all_websites
 
-- name: 'Copy files to home directory (force: No)'
+- name: 'Copy files to websites home directory (force: No)'
   copy:
     src: "{{ playbook_dir }}/roles/user_access/files/first_files/{{ item.user }}/"
     dest: "{{ web_home_path }}/{{ item.user }}"
@@ -31,7 +31,7 @@
     force: No
   with_items: all_websites
 
-- name: 'Copy files to home directory (force: Yes)'
+- name: 'Copy files to websites home directory (force: Yes)'
   copy:
     src: "{{ playbook_dir }}/roles/user_access/files/replace_files/{{ item.user }}/"
     dest: "{{ web_home_path }}/{{ item.user }}"
