@@ -11,24 +11,24 @@
 - name: 'Create group account for websites'
   group:
     state: present
-    name: "{{ item.user }}"
-  with_items: all_websites
+    name: "{{ item.value.user }}"
+  with_dict: all_websites
 
 - name: 'Create user account for websites'
   user:
     state: present
-    name: "{{ item.user }}"
-    group: "{{ item.user }}"
-    home: "{{ web_home_path }}/{{ item.user }}"
+    name: "{{ item.value.user }}"
+    group: "{{ item.value.user }}"
+    home: "{{ web_home_path }}/{{ item.value.user }}"
     move_home: no
-    comment: "{{ item.name }}"
-  with_items: all_websites
+    comment: "{{ item.key }}"
+  with_dict: all_websites
 
 - name: 'Create user directory www for websites'
   file:
     state: directory
-    path: "{{ web_home_path }}/{{ item.user }}/www"
-    owner: "{{ item.user }}"
+    path: "{{ web_home_path }}/{{ item.value.user }}/www"
+    owner: "{{ item.value.user }}"
     group: 'www-data'
     mode: 0750
-  with_items: all_websites
+  with_dict: all_websites

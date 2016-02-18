@@ -1,17 +1,17 @@
 server {
-	server_name {{ item.name }};
+	server_name {{ item.key }};
 	listen 80;
 	listen [::]:80;
 	autoindex off;
-	root /var/www/{{ item.user }}/www/{{ item.name }};
-	access_log /var/log/nginx/{{ item.name }}/access.log;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	root /var/www/{{ item.value.user }}/www/{{ item.key }};
+	access_log /var/log/nginx/{{ item.key }}/access.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 
 	gzip on;
 	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
-{% if item.nginx_root_options is defined %}
+{% if item.value.nginx_root_options is defined %}
 
-{% for i in item.nginx_root_options %}
+{% for i in item.value.nginx_root_options %}
 	{{ i }};
 {% endfor %}
 {% endif %}
@@ -32,14 +32,14 @@ server {
 		log_not_found off;
 	}
 }
-{% if item.serveralias %}
+{% if item.value.serveralias %}
 
 server {
-	server_name{% for i in item.serveralias %} {{ i }}{% endfor %};
+	server_name{% for i in item.value.serveralias %} {{ i }}{% endfor %};
 	listen 80;
 	listen [::]:80;
-	rewrite ^/(.*)$ http://{{ item.name }}/$1 permanent;
+	rewrite ^/(.*)$ http://{{ item.key }}/$1 permanent;
 	access_log off;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 }
 {% endif %}

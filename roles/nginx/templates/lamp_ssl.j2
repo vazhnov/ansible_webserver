@@ -1,33 +1,33 @@
-limit_req_zone $binary_remote_addr zone=dos_{{ item.name }}:2m rate=3r/s;
+limit_req_zone $binary_remote_addr zone=dos_{{ item.key }}:2m rate=3r/s;
 
 server {
-	server_name {{ item.name }}{% if item.serveralias is defined %}{% for i in item.serveralias %} {{ i }}{% endfor %}{% endif %};
+	server_name {{ item.key }}{% if item.value.serveralias is defined %}{% for i in item.value.serveralias %} {{ i }}{% endfor %}{% endif %};
 	listen 80;
 	listen [::]:80;
-	rewrite ^/(.*)$ https://{{ item.name }}/$1 permanent;
+	rewrite ^/(.*)$ https://{{ item.key }}/$1 permanent;
 	access_log off;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 }
 
 server {
 	listen 443 ssl spdy;
 	listen [::]:443 ssl spdy;
-	server_name {{ item.name }};
-	root /var/www/{{ item.user }}/www/{{ item.name }};
-	access_log /var/log/nginx/{{ item.name }}/access.log;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	server_name {{ item.key }};
+	root /var/www/{{ item.value.user }}/www/{{ item.key }};
+	access_log /var/log/nginx/{{ item.key }}/access.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 
 	gzip on;
 	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
-{% if item.nginx_root_options is defined %}
+{% if item.value.nginx_root_options is defined %}
 
-{% for i in item.nginx_root_options %}
+{% for i in item.value.nginx_root_options %}
 	{{ i }};
 {% endfor %}
 {% endif %}
 
-	ssl_certificate /etc/ssl/private/{{ item.name }}_chain.crt;
-	ssl_certificate_key /etc/ssl/private/{{ item.name }}.key;
+	ssl_certificate /etc/ssl/private/{{ item.key }}_chain.crt;
+	ssl_certificate_key /etc/ssl/private/{{ item.key }}.key;
 
 	ssl_stapling on;
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -38,7 +38,7 @@ server {
 	ssl_session_timeout 20m;
 
 	location / {
-		limit_req zone=dos_{{ item.name }} burst=10 nodelay;
+		limit_req zone=dos_{{ item.key }} burst=10 nodelay;
 		proxy_set_header X-Real-IP  $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 		proxy_set_header Host $host;
@@ -64,14 +64,14 @@ server {
 		log_not_found off;
 	}
 }
-{% if item.serveralias is defined %}
+{% if item.value.serveralias is defined %}
 
 server {
-	server_name{% for i in item.serveralias %} {{ i }}{% endfor %};
+	server_name{% for i in item.value.serveralias %} {{ i }}{% endfor %};
 	listen 443 ssl spdy;
 	listen [::]:443 ssl spdy;
-	rewrite ^/(.*)$ https://{{ item.name }}/$1 permanent;
+	rewrite ^/(.*)$ https://{{ item.key }}/$1 permanent;
 	access_log off;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 }
 {% endif %}

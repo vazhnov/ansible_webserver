@@ -1,24 +1,24 @@
-limit_req_zone $binary_remote_addr zone=dos_{{ item.name }}:2m rate=3r/s;
+limit_req_zone $binary_remote_addr zone=dos_{{ item.key }}:2m rate=3r/s;
 
 server {
-	server_name {{ item.name }};
+	server_name {{ item.key }};
 	listen 80;
 	listen [::]:80;
-	root /var/www/{{ item.user }}/www/{{ item.name }};
-	access_log /var/log/nginx/{{ item.name }}/access.log;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	root /var/www/{{ item.value.user }}/www/{{ item.key }};
+	access_log /var/log/nginx/{{ item.key }}/access.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 
 	gzip on;
 	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
-{% if item.nginx_root_options is defined %}
+{% if item.value.nginx_root_options is defined %}
 
-{% for i in item.nginx_root_options %}
+{% for i in item.value.nginx_root_options %}
 	{{ i }};
 {% endfor %}
 {% endif %}
 
 	location / {
-		limit_req zone=dos_{{ item.name }} burst=10 nodelay;
+		limit_req zone=dos_{{ item.key }} burst=10 nodelay;
 		proxy_set_header X-Real-IP  $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 		proxy_set_header Host $host;
@@ -66,14 +66,14 @@ server {
 		access_log off;
 	}
 }
-{% if item.serveralias is defined %}
+{% if item.value.serveralias is defined %}
 
 server {
-	server_name{% for i in item.serveralias %} {{ i }}{% endfor %};
+	server_name{% for i in item.value.serveralias %} {{ i }}{% endfor %};
 	listen 80;
 	listen [::]:80;
-	rewrite ^/(.*)$ http://{{ item.name }}/$1 permanent;
+	rewrite ^/(.*)$ http://{{ item.key }}/$1 permanent;
 	access_log off;
-	error_log /var/log/nginx/{{ item.name }}/error.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
 }
 {% endif %}

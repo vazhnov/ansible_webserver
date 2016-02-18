@@ -2,9 +2,9 @@
 ---
 - name: 'Create Nginx template for Nginx+Apache website'
   template:
-    src: "{{ item.tmpl_nginx | default('lamp') }}.j2"
-    dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
-  with_items: all_websites
+    src: "{{ item.value.tmpl_nginx | default('lamp') }}.j2"
+    dest: "/etc/nginx/sites-available/{{ item.key }}.conf"
+  with_dict: all_websites
   notify:
     - Reload nginx
   tags:
@@ -13,10 +13,10 @@
 
 - name: 'Create Nginx symlink for Nginx+Apache website'
   file:
-    state: "{{ item.state | default('link') }}"
-    path: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
-    src: "../sites-available/{{ item.name }}.conf"
-  with_items: all_websites
+    state: "{{ item.value.state | default('link') }}"
+    path: "/etc/nginx/sites-enabled/{{ item.key }}.conf"
+    src: "../sites-available/{{ item.key }}.conf"
+  with_dict: all_websites
   notify:
     - Reload nginx
   tags:
@@ -26,10 +26,10 @@
 - name: 'Create Nginx log directory for Nginx+Apache website'
   file:
     state: directory
-    path: "/var/log/nginx/{{ item.name }}"
+    path: "/var/log/nginx/{{ item.key }}"
     owner: 'www-data'
     group: 'adm'
     mode: 0750
-  with_items: all_websites
+  with_dict: all_websites
   tags:
     - nginx
