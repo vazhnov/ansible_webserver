@@ -1,4 +1,6 @@
-limit_req_zone $binary_remote_addr zone=dos_{{ item.name }}:2m rate=3r/s;
+{% if item.limit_req|default('Yes')|bool %}
+limit_req_zone $binary_remote_addr zone=dos_{{ item.name }}:{{ item.limit_req_size|default('2m') }} rate={{ item.limit_req_rate|default('3r/s') }};
+{% endif %}
 
 server {
 	server_name {{ item.name }};
@@ -18,7 +20,9 @@ server {
 {% endif %}
 
 	location / {
-		limit_req zone=dos_{{ item.name }} burst=10 nodelay;
+{% if item.limit_req|default('Yes')|bool %}
+		limit_req zone=dos_{{ item.name }} burst={{ item.limit_req_burst|default('10') }} nodelay;
+{% endif %}
 		proxy_set_header X-Real-IP  $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 		proxy_set_header Host $host;

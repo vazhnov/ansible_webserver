@@ -39,6 +39,26 @@ users:
 * В ней создайте .yml файл со списком ролей для сервера, пример в [host_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
 * Также создайте .yml файл со списком `all_websites`. Пример есть в [host_vars/srv01.example.com/all_websites.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/all_websites.yml).
 
+## Подробная настройка
+
+### Словарь all_websites
+
+* `state` — absent/present, по умолчанию present, в случае если будет выбран absent, то удалятся symlink'и на конфигурации и сервисам будет отправлен сигнал reload;
+
+#### Роль Nginx
+
+Опции:
+* `nginx_root_options` — список;
+* `limit_req` — bool, default = Yes;
+* `limit_req_size` — default = 2m;
+* `limit_req_rate` — default = 3r/s;
+* `limit_req_burst` — default = 10;
+
+#### Роль apache
+
+Опции:
+* `php_admin_value` — список;
+
 ## Полезные команды
 
 * `git ls-files --ignored --exclude-standard` — посмотреть список игнорируемых файлов;
