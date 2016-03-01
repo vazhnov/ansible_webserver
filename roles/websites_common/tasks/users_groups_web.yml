@@ -12,7 +12,7 @@
   group:
     state: present
     name: "{{ item.value.user }}"
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"
 
 - name: 'Create user account for websites'
   user:
@@ -22,7 +22,7 @@
     home: "{{ web_home_path }}/{{ item.value.user }}"
     move_home: no
     comment: "{{ item.key }}"
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"
 
 - name: 'Create user directory www for websites'
   file:
@@ -31,4 +31,4 @@
     owner: "{{ item.value.user }}"
     group: 'www-data'
     mode: 0750
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"

@@ -6,7 +6,7 @@
     - "os_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
     - "os_{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
     - "os_{{ ansible_distribution }}.yml"
-    - empty.yml
+    - 'empty.yml'
 
 - include: users_groups_web.yml
 - include: copy_user_files.yml

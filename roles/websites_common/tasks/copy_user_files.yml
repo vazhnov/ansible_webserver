@@ -9,7 +9,7 @@
   always_run: yes
   run_once: yes
   no_log: yes
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"
 
 - name: 'Create empty local dirs replace_files (only once)'
   file:
@@ -20,7 +20,7 @@
   always_run: yes
   run_once: yes
   no_log: yes
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"
 
 - name: 'Copy files to websites home directory (force: No)'
   copy:
@@ -29,7 +29,7 @@
     owner: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
     force: No
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"
 
 - name: 'Copy files to websites home directory (force: Yes)'
   copy:
@@ -38,4 +38,4 @@
     owner: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
     force: Yes
-  with_dict: all_websites
+  with_dict: "{{ all_websites }}"
