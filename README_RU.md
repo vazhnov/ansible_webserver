@@ -42,7 +42,7 @@ users:
 ### Применяем
 
 ```shell
-ansible-playbook websites_roles.yml --limit=srv01.example.com
+ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
 ```
 
 ## Подробная настройка
@@ -68,6 +68,7 @@ ansible-playbook websites_roles.yml --limit=srv01.example.com
 ## Полезные команды
 
 * `git ls-files --ignored --exclude-standard` — посмотреть список игнорируемых файлов;
+* `ansible -i inventory/hosts srv01.example.com -m raw -a "sudo apt-get install -y python-minimal"` — установить Python2;
 
 ## Полезные переменные для отдельных серверов/групп
 
