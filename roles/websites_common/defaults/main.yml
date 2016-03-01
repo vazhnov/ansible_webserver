@@ -11,3 +11,4 @@ packages_common:
   - unzip
   - zip
   - curl
+  - python-apt
