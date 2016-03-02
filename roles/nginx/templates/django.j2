@@ -1,0 +1,66 @@
+{% if item.value.limit_req|default('Yes')|bool %}
+limit_req_zone $binary_remote_addr zone=dos_{{ item.key }}:{{ item.value.limit_req_size|default('2m') }} rate={{ item.value.limit_req_rate|default('3r/s') }};
+{% endif %}
+
+server {
+	server_name {{ item.key }};
+	listen 80;
+	listen [::]:80;
+
+	access_log /var/log/nginx/{{ item.key }}/access.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
+
+	gzip on;
+	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
+{% if item.value.nginx_root_options is defined %}
+
+{% for i in item.value.nginx_root_options %}
+	{{ i }};
+{% endfor %}
+{% endif %}
+
+	location /admin {
+{% if item.value.limit_req|default('Yes')|bool %}
+		limit_req zone=dos_{{ item.key }} burst={{ item.value.limit_req_burst|default('10') }} nodelay;
+{% endif %}
+		include uwsgi_params;
+		uwsgi_pass unix:///run/uwsgi/app/{{ item.key }}/socket;
+	}
+
+	location = / {
+{% if item.value.limit_req|default('Yes')|bool %}
+		limit_req zone=dos_{{ item.key }} burst={{ item.value.limit_req_burst|default('10') }} nodelay;
+{% endif %}
+		include uwsgi_params;
+		uwsgi_pass unix:///run/uwsgi/app/{{ item.key }}/socket;
+	}
+
+	location /static {
+		alias /var/www/{{ item.value.user }}/www/{{ item.key }}/static;
+		access_log off;
+		expires max;
+	}
+
+	location = /favicon.ico {
+		root /var/www/{{ item.value.user }}/www/{{ item.key }}/robots/;
+		log_not_found off;
+		access_log off;
+	}
+
+	location = /robots.txt {
+		root /var/www/{{ item.value.user }}/www/{{ item.key }}/robots/;
+		log_not_found off;
+		access_log off;
+	}
+}
+{% if item.value.serveralias is defined %}
+
+server {
+	server_name{% for i in item.value.serveralias %} {{ i }}{% endfor %};
+	listen 80;
+	listen [::]:80;
+	rewrite ^/(.*)$ http://{{ item.key }}/$1 permanent;
+	access_log off;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
+}
+{% endif %}
