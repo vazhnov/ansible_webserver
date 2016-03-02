@@ -2,10 +2,10 @@
 ---
 - name: 'Create Apache template for Nginx+Apache website'
   template:
-    src: "apache/{{ item.tmpl_apache }}.j2"
-    dest: "/etc/apache2/sites-available/{{ item.name }}.conf"
-  when: item.tmpl_apache is defined
-  with_items: all_websites
+    src: "apache/{{ item.value.tmpl_apache }}.j2"
+    dest: "/etc/apache2/sites-available/{{ item.key }}.conf"
+  when: item.value.tmpl_apache is defined
+  with_dict: "{{ all_websites }}"
   notify:
     - Reload apache
   tags:
@@ -14,11 +14,11 @@
 
 - name: 'Create Apache symlink for Nginx+Apache website'
   file:
-    state: "{{ item.state | default('link') }}"
-    path: "/etc/apache2/sites-enabled/{{ item.name }}.conf"
-    src: "../sites-available/{{ item.name }}.conf"
-  when: item.tmpl_apache is defined
-  with_items: all_websites
+    state: "{{ item.value.state | default('link') }}"
+    path: "/etc/apache2/sites-enabled/{{ item.key }}.conf"
+    src: "../sites-available/{{ item.key }}.conf"
+  when: item.value.tmpl_apache is defined
+  with_dict: "{{ all_websites }}"
   notify:
     - Reload apache
   tags:
@@ -28,11 +28,11 @@
 - name: 'Create Apache log directory for Nginx+Apache website'
   file:
     state: directory
-    path: "/var/log/apache2/{{ item.name }}"
-    owner: "{{ item.user }}"
+    path: "/var/log/apache2/{{ item.key }}"
+    owner: "{{ item.value.user }}"
     group: 'adm'
     mode: 0750
-  when: item.tmpl_apache is defined
-  with_items: all_websites
+  when: item.value.tmpl_apache is defined
+  with_dict: "{{ all_websites }}"
   tags:
     - apache
