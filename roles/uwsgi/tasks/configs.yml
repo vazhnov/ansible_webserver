@@ -2,10 +2,10 @@
 ---
 - name: 'Create uwsgi template'
   template:
-    src: "{{ item.tmpl_uwsgi | default('lamp') }}.j2"
-    dest: "/etc/uwsgi/apps-available/{{ item.name }}.ini"
-  when: item.tmpl_uwsgi is defined
-  with_items: all_websites
+    src: "{{ item.value.tmpl_uwsgi | default('lamp') }}.j2"
+    dest: "/etc/uwsgi/apps-available/{{ item.key }}.ini"
+  when: item.value.tmpl_uwsgi is defined
+  with_dict: "{{ all_websites }}"
   notify:
     - Reload uwsgi
   tags:
@@ -13,11 +13,11 @@
 
 - name: 'Create uwsgi symlink'
   file:
-    state: "{{ item.state | default('link') }}"
-    path: "/etc/uwsgi/apps-enabled/{{ item.name }}.ini"
-    src: "../apps-available/{{ item.name }}.ini"
-  when: item.tmpl_uwsgi is defined
-  with_items: all_websites
+    state: "{{ item.value.state | default('link') }}"
+    path: "/etc/uwsgi/apps-enabled/{{ item.key }}.ini"
+    src: "../apps-available/{{ item.key }}.ini"
+  when: item.value.tmpl_uwsgi is defined
+  with_dict: "{{ all_websites }}"
   notify:
     - Reload uwsgi
   tags:
@@ -26,11 +26,11 @@
 - name: 'Create uwsgi log directory'
   file:
     state: directory
-    path: "/var/log/uwsgi/app/{{ item.name }}"
-    owner: "{{ item.user }}"
+    path: "/var/log/uwsgi/app/{{ item.key }}"
+    owner: "{{ item.value.user }}"
     group: 'adm'
     mode: 0750
-  when: item.tmpl_uwsgi is defined
-  with_items: all_websites
+  when: item.value.tmpl_uwsgi is defined
+  with_dict: "{{ all_websites }}"
   tags:
     - uwsgi
