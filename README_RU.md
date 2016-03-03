@@ -51,7 +51,7 @@ ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
 
 * `state` — absent/present, по умолчанию present, в случае если будет выбран absent, то удалятся symlink'и на конфигурации и сервисам будет отправлен сигнал reload;
 
-#### Роль Nginx
+#### Роль nginx
 
 Опции:
 * `nginx_root_options` — список;
@@ -64,6 +64,22 @@ ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
 
 Опции:
 * `php_admin_value` — список;
+
+#### Роль postgresql
+
+Опции:
+* `backup_path` — если задан, то при создании БД для сайта, будет загружен дамп с локальной машины;
+
+#### Роль mysql
+
+Опции:
+* `backup_path` — если задан, то при создании БД для сайта, будет загружен дамп с локальной машины;
+* `password` — пароль на MySQL;
+
+#### Роль pip
+
+Опции:
+* `requirements_file` — список;
 
 ## Полезные команды
 

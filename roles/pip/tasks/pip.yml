@@ -1,38 +1,38 @@
 ---
 - name: 'Copy requirements.txt'
   copy:
-    src: "{{ item.pip_requirements_file }}"
-    dest: "{{ web_home_path }}/{{ item.user }}/requirements.txt"
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
+    src: "{{ item.value.pip.requirements_file }}"
+    dest: "{{ web_home_path }}/{{ item.value.user }}/requirements.txt"
+    owner: "{{ item.value.user }}"
+    group: "{{ item.value.user }}"
     mode: 0640
-  when: item.pip_requirements_file is defined
-  with_items: all_websites
+  when: item.value.pip.requirements_file is defined
+  with_dict: "{{ all_websites }}"
   register: reg_requirements
 
 - name: 'pip install if requirements.txt was changed'
-  become_user: "{{ item.item.user }}"
+  become_user: "{{ item.item.value.user }}"
   pip:
-    requirements: "{{ web_home_path }}/{{ item.item.user }}/requirements.txt"
+    requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
     extra_args: '--user'
-  when: item.item.pip_requirements_file is defined and item.changed
+  when: item.item.value.pip.requirements_file is defined and item.changed
   with_items: reg_requirements.results
 
-- name: 'Create requirements.txt from pip_requirements_list'
+- name: 'Create requirements.txt from pip.requirements_list'
   template:
     src: requirements.txt.j2
-    dest: "{{ web_home_path }}/{{ item.user }}/requirements.txt"
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
+    dest: "{{ web_home_path }}/{{ item.value.user }}/requirements.txt"
+    owner: "{{ item.value.user }}"
+    group: "{{ item.value.user }}"
     mode: 0640
-  when: item.pip_requirements_list is defined
-  with_items: all_websites
+  when: item.value.pip.requirements_list is defined
+  with_dict: "{{ all_websites }}"
   register: reg_requirements_list
 
 - name: 'pip install if requirements.txt was changed from list'
-  become_user: "{{ item.item.user }}"
+  become_user: "{{ item.item.value.user }}"
   pip:
-    requirements: "{{ web_home_path }}/{{ item.item.user }}/requirements.txt"
+    requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
     extra_args: '--user'
-  when: item.item.pip_requirements_list is defined and item.changed
+  when: item.item.value.pip.requirements_list is defined and item.changed
   with_items: reg_requirements_list.results

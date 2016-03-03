@@ -11,9 +11,10 @@ all_websites:
     tmpl_uwsgi: django
     tmpl_nginx: django
     user: examplecom
-    #pip_requirements_file: '/backup/websites/boot-keys.org.requirements.txt'
-    pip_requirements_list:
-      - 'Django==1.7.11'
+    pip:
+      #requirements_file: '/backup/websites/boot-keys.org.requirements.txt'
+      requirements_list:
+        - 'Django==1.7.11'
     db_type: postgresql
     serveralias:
       - www.django.example.com
@@ -25,6 +26,7 @@ all_websites:
     # For MySQL, used only first 16 symbols of 'user'
     user: wordpressexamplecom
     db_type: mysql
-    mysqlpass: j3HJywe4Xutx3FudcXd1at
+    mysql:
+      password: j3HJywe4Xutx3FudcXd1at
     serveralias:
       - www.wordpress.example.com

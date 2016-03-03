@@ -3,42 +3,42 @@
 - name: 'Create Application Database'
   mysql_db:
     state: present
-    name: "{{ item.user[:16] }}"
-  when: item.db_type == 'mysql'
-    and item.mysqlpass is defined
-  with_items: all_websites
+    name: "{{ item.value.user[:16] }}"
+  when: item.value.db_type == 'mysql'
+    and item.value.mysql.password is defined
+  with_dict: "{{ all_websites }}"
   tags:
     - mysql
 
 - name: 'Create Application DB User'
   mysql_user:
     state: present
-    name: "{{ item.user[:16] }}"
-    password: "{{ item.mysqlpass }}"
-    priv: "{{ item.user[:16] }}.*:ALL"
+    name: "{{ item.value.user[:16] }}"
+    password: "{{ item.value.mysql.password }}"
+    priv: "{{ item.value.user[:16] }}.*:ALL"
     host: '%'
-  when: item.db_type == 'mysql'
-    and item.mysqlpass is defined
-  with_items: all_websites
+  when: item.value.db_type == 'mysql'
+    and item.value.mysql.password is defined
+  with_dict: "{{ all_websites }}"
   register: reg_mysql
   tags:
     - mysql
 
 - name: 'Upload DB backup'
-  become_user: "{{ item.item.user }}"
+  become_user: "{{ item.item.value.user }}"
   copy:
-    src: "{{ backup_path }}/{{ item.item.name }}.sql.gz"
+    src: "{{ backup_path }}/{{ item.item.key }}.sql.gz"
     dest: '/tmp/'
-  when: item.changed
+  when: item.changed and item.item.value.mysql.backup_path is defined
   with_items: reg_mysql.results
 
 
 - name: 'Import DB'
   mysql_db:
     state: import
-    name: "{{ item.item.user[:16] }}"
-    target: "/tmp/{{ item.item.name }}.sql.gz"
-  when: item.changed
+    name: "{{ item.item.value.user[:16] }}"
+    target: "/tmp/{{ item.item.key }}.sql.gz"
+  when: item.changed and item.item.value.mysql.backup_path is defined
   with_items: reg_mysql.results
   tags:
     - mysql

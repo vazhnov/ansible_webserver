@@ -24,17 +24,17 @@
   copy:
     src: "{{ backup_path }}/{{ item.item.key }}.sql.gz"
     dest: '/tmp/'
-  when: item.changed
+  when: item.changed and item.item.value.postgresql.backup_path is defined
   with_items: reg_postgres.results
 
 - name: 'Unpack dump'
   become_user: "{{ item.item.value.user }}"
   shell: "gunzip --force /tmp/{{ item.item.key }}.sql.gz"
-  when: item.changed
+  when: item.changed and item.item.value.postgresql.backup_path is defined
   with_items: reg_postgres.results
 
 - name: 'Import sql dump to PostgreSQL'
   become_user: "{{ item.item.value.user }}"
   shell: "psql {{ item.item.value.user }} -f /tmp/{{ item.item.key }}.sql"
-  when: item.changed
+  when: item.changed and item.item.value.postgresql.backup_path is defined
   with_items: reg_postgres.results
