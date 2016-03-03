@@ -2,9 +2,9 @@
 ---
 - name: 'Create Apache template for Nginx+Apache website'
   template:
-    src: "apache/{{ item.value.tmpl_apache }}.j2"
+    src: "apache/{{ item.value.apache.template }}.j2"
     dest: "/etc/apache2/sites-available/{{ item.key }}.conf"
-  when: item.value.tmpl_apache is defined
+  when: item.value.apache.template is defined
   with_dict: "{{ all_websites }}"
   notify:
     - Reload apache
@@ -17,7 +17,7 @@
     state: "{{ item.value.state | default('link') }}"
     path: "/etc/apache2/sites-enabled/{{ item.key }}.conf"
     src: "../sites-available/{{ item.key }}.conf"
-  when: item.value.tmpl_apache is defined
+  when: item.value.apache.template is defined
   with_dict: "{{ all_websites }}"
   notify:
     - Reload apache
@@ -32,7 +32,7 @@
     owner: "{{ item.value.user }}"
     group: 'adm'
     mode: 0750
-  when: item.value.tmpl_apache is defined
+  when: item.value.apache.template is defined
   with_dict: "{{ all_websites }}"
   tags:
     - apache

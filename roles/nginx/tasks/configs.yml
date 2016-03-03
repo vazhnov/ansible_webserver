@@ -2,7 +2,7 @@
 ---
 - name: 'Create Nginx template for Nginx+Apache website'
   template:
-    src: "{{ item.value.tmpl_nginx | default('lamp') }}.j2"
+    src: "{{ item.value.nginx.template | default('lamp') }}.j2"
     dest: "/etc/nginx/sites-available/{{ item.key }}.conf"
   with_dict: "{{ all_websites }}"
   notify:

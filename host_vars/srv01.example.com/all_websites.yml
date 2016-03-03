@@ -4,12 +4,12 @@
 #* state=absent
 #* check_status=403,404
 #* and php_admin_value
-# You can not add parameter "tmpl_apache"
 ---
 all_websites:
   django.example.com:
     tmpl_uwsgi: django
-    tmpl_nginx: django
+    nginx:
+      template: django
     user: examplecom
     pip:
       #requirements_file: '/backup/websites/boot-keys.org.requirements.txt'
@@ -19,8 +19,10 @@ all_websites:
     serveralias:
       - www.django.example.com
   wordpress.example.com:
-    tmpl_apache: django
-    tmpl_nginx: django
+    apache:
+      template: lamp
+    nginx:
+      template: lamp
     nginx_root_options:
       - client_max_body_size 32m
     # For MySQL, used only first 16 symbols of 'user'
