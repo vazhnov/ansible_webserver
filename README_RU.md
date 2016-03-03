@@ -41,6 +41,11 @@ users:
 
 ### Применяем
 
+В первый раз, чтобы установить Python:
+```shell
+ansible-playbook -i inventory/hosts pre_install.yml --limit=srv01.example.com
+```
+
 ```shell
 ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
 ```
