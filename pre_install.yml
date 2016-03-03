@@ -1,0 +1,8 @@
+# File: pre_install.yml
+---
+- hosts: all
+  gather_facts: No
+  sudo: Yes
+  tasks:
+    - name:
+      raw: apt-get install -y python-minimal python-apt
