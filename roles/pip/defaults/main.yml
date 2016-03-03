@@ -1,3 +1,4 @@
+# File: roles/pip/defaults/main.yml
 ---
 packages_pip:
   - python-imaging

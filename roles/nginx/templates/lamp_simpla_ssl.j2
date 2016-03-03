@@ -19,9 +19,9 @@ server {
 
 	gzip on;
 	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
-{% if item.value.nginx_root_options is defined %}
+{% if item.value.nginx.root_options is defined %}
 
-{% for i in item.value.nginx_root_options %}
+{% for i in item.value.nginx.root_options %}
 	{{ i }};
 {% endfor %}
 {% endif %}

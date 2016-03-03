@@ -23,8 +23,8 @@ all_websites:
       template: lamp
     nginx:
       template: lamp
-    nginx_root_options:
-      - client_max_body_size 32m
+      root_options:
+        - client_max_body_size 32m
     # For MySQL, used only first 16 symbols of 'user'
     user: wordpressexamplecom
     db_type: mysql

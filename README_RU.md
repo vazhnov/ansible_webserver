@@ -54,7 +54,7 @@ ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
 #### Роль nginx
 
 Опции:
-* `nginx_root_options` — список;
+* `root_options` — список;
 * `limit_req` — bool, default = Yes;
 * `limit_req_size` — default = 2m;
 * `limit_req_rate` — default = 3r/s;
