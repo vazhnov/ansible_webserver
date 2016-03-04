@@ -19,6 +19,7 @@
   register: reg_postgres
   when: item.value.db_type == 'postgresql'
 
+  # TODO: Maybe module 'get_url' would be better choose
 - name: 'Upload DB backup'
   become_user: "{{ item.item.value.user }}"
   copy:
