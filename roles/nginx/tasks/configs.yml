@@ -1,29 +1,31 @@
 # File: roles/nginx/tasks/configs.yml
 ---
-- name: 'Create Nginx template for Nginx+Apache website'
+- name: 'Create Nginx template for Nginx website'
   template:
-    src: "{{ item.value.nginx.template | default('lamp') }}.j2"
+    src: "{{ item.value.nginx.template }}.j2"
     dest: "/etc/nginx/sites-available/{{ item.key }}.conf"
   with_dict: "{{ all_websites }}"
+  when: item.value.nginx.template is defined
   notify:
     - Reload nginx
   tags:
     - configuration
     - nginx
 
-- name: 'Create Nginx symlink for Nginx+Apache website'
+- name: 'Create Nginx symlink for Nginx website'
   file:
     state: "{{ item.value.state | default('link') }}"
     path: "/etc/nginx/sites-enabled/{{ item.key }}.conf"
     src: "../sites-available/{{ item.key }}.conf"
   with_dict: "{{ all_websites }}"
+  when: item.value.nginx.template is defined
   notify:
     - Reload nginx
   tags:
     - configuration
     - nginx
 
-- name: 'Create Nginx log directory for Nginx+Apache website'
+- name: 'Create Nginx log directory for Nginx website'
   file:
     state: directory
     path: "/var/log/nginx/{{ item.key }}"
@@ -31,5 +33,6 @@
     group: 'adm'
     mode: 0750
   with_dict: "{{ all_websites }}"
+  when: item.value.nginx.template is defined
   tags:
     - nginx
