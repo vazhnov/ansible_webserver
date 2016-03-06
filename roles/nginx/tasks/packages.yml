@@ -2,10 +2,9 @@
 ---
 - name: 'Install packages for Nginx'
   apt:
-    pkg: "{{item}}"
+    pkg: "{{ item }}"
     state: present
     install_recommends: no
-  with_items:
-    - nginx-full
+  with_items: "{{ packages_nginx }}"
   tags:
     - packages
