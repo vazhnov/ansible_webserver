@@ -43,11 +43,11 @@ users:
 
 В первый раз, чтобы установить Python:
 ```shell
-ansible-playbook -i inventory/hosts pre_install.yml --limit=srv01.example.com
+ansible-playbook -i inventory/example pre_install.yml --limit=srv01.example.com
 ```
 
 ```shell
-ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
+ansible-playbook -i inventory/example websites_roles.yml --limit=srv01.example.com
 ```
 
 ## Подробная настройка
@@ -89,7 +89,7 @@ ansible-playbook -i inventory/hosts websites_roles.yml --limit=srv01.example.com
 ## Полезные команды
 
 * `git ls-files --ignored --exclude-standard` — посмотреть список игнорируемых файлов;
-* `ansible -i inventory/hosts srv01.example.com -m raw -a "sudo apt-get install -y python-minimal"` — установить Python2;
+* `ansible -i inventory/example srv01.example.com -m raw -a "sudo apt-get install -y python-minimal"` — установить Python2;
 
 ## Полезные переменные для отдельных серверов/групп
 

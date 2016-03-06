@@ -1,5 +1,5 @@
-# hosts/* are for the local tests inventory
-hosts/
+# This files are for the git:
+#inventory/
 tmp/
 group_vars/local-*
 group_vars/all/users.yml

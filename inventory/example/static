@@ -1,0 +1,7 @@
+# Best file for storing ssh settings is ~/.ssh/config
+# If you try to store settings in inventory, it is certainly wrong.
+# You can keep ~/.ssh/config in 'vcsh'.
+#
+#[mytestservers]
+#srv01.example.com	ansible_ssh_port=2
+srv01.example.com
