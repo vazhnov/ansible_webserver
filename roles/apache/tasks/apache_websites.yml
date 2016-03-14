@@ -1,8 +1,8 @@
 # File: roles/apache/tasks/apache_websites.yml
 ---
-- name: 'Create Apache template for Apache website'
+- name: 'Create Apache template for website'
   template:
-    src: "apache/{{ item.value.apache.template }}.j2"
+    src: "{{ item.value.apache.template }}.j2"
     dest: "/etc/apache2/sites-available/{{ item.key }}.conf"
   when: item.value.apache.template is defined
   with_dict: "{{ all_websites }}"
@@ -12,7 +12,7 @@
     - configuration
     - apache
 
-- name: 'Create Apache symlink for Apache website'
+- name: 'Create Apache symlink for website'
   file:
     state: "{{ item.value.state | default('link') }}"
     path: "/etc/apache2/sites-enabled/{{ item.key }}.conf"
@@ -25,7 +25,7 @@
     - configuration
     - apache
 
-- name: 'Create Apache log directory for Apache website'
+- name: 'Create Apache log directory for website'
   file:
     state: directory
     path: "/var/log/apache2/{{ item.key }}"
