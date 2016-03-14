@@ -21,7 +21,7 @@ server {
 
 	location /admin {
 {% if item.value.nginx.limit_req|default('Yes')|bool %}
-		limit_req zone=dos_{{ item.key }} burst={{ item.value.nginx.limit_req_burst|default('10') }} nodelay;
+		limit_req zone=dos_{{ item.key }} burst={{ item.value.nginx.limit_req_burst|default('2') }} nodelay;
 {% endif %}
 		include uwsgi_params;
 		uwsgi_pass unix:///run/uwsgi/app/{{ item.key }}/socket;
