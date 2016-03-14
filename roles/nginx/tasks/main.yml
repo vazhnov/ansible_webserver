@@ -2,4 +2,4 @@
 ---
 - include: packages.yml
 - include: base_files_nginx.yml
-- include: configs.yml
+- include: nginx_websites.yml

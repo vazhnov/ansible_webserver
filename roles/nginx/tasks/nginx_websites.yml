@@ -1,6 +1,6 @@
-# File: roles/nginx/tasks/configs.yml
+# File: roles/nginx/tasks/nginx_websites.yml
 ---
-- name: 'Create Nginx template for Nginx website'
+- name: 'Create Nginx template for website'
   template:
     src: "{{ item.value.nginx.template }}.j2"
     dest: "/etc/nginx/sites-available/{{ item.key }}.conf"
@@ -12,7 +12,7 @@
     - configuration
     - nginx
 
-- name: 'Create Nginx symlink for Nginx website'
+- name: 'Create Nginx symlink for website'
   file:
     state: "{{ item.value.state | default('link') }}"
     path: "/etc/nginx/sites-enabled/{{ item.key }}.conf"
@@ -25,7 +25,7 @@
     - configuration
     - nginx
 
-- name: 'Create Nginx log directory for Nginx website'
+- name: 'Create Nginx log directory for website'
   file:
     state: directory
     path: "/var/log/nginx/{{ item.key }}"
