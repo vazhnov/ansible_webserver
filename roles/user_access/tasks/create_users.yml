@@ -4,7 +4,7 @@
   group:
     state: present
     name: "{{ item.key }}"
-  with_dict: users
+  with_dict: "{{ users }}"
   tags:
     - create_groups
 
@@ -15,7 +15,7 @@
     groups: "{{ item.value.groups }}"
     comment: "{{ item.value.comment }}"
     shell: "{{ item.value.shell|default('/bin/bash') }}"
-  with_dict: users
+  with_dict: "{{ users }}"
   tags:
     - create_users
 
@@ -26,7 +26,7 @@
     mode: 0750
     owner: "{{ item.key }}"
     group: "{{ item.key }}"
-  with_dict: users
+  with_dict: "{{ users }}"
 
 - name: 'Create user ssh directories and set permissions 0700'
   file:
@@ -35,4 +35,4 @@
     mode: 0700
     owner: "{{ item.key }}"
     group: "{{ item.key }}"
-  with_dict: users
+  with_dict: "{{ users }}"
