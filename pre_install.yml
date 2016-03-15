@@ -1,8 +1,13 @@
 # File: pre_install.yml
+#
+# Usage example:
+# ansible-playbook -i inventory/example pre_install.yml --limit=srv01.example.com
+
 ---
-- hosts: all
+- name: 'Raw install python-minimal'
+  hosts: all
   gather_facts: No
   sudo: Yes
   tasks:
-    - name:
+    - name: 'apt-get install -y python-minimal python-apt'
       raw: apt-get install -y python-minimal python-apt
