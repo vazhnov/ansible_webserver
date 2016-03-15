@@ -4,7 +4,11 @@
   apt:
     pkg: "{{ item }}"
     state: present
-    install_recommends: no
+    install_recommends: No
   with_items: "{{ packages_nginx }}"
+  retries: 3
+  delay: 10
+  until: apt_result|success
+  register: apt_result
   tags:
     - packages

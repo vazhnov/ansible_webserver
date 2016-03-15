@@ -12,6 +12,10 @@
   apt:
     update_cache: yes
     cache_valid_time: 43200
+  retries: 3
+  delay: 10
+  until: apt_result|success
+  register: apt_result
   tags:
     - packages
 
@@ -19,8 +23,12 @@
   apt:
     pkg: "{{ item }}"
     state: present
-    install_recommends: no
-  with_items: packages_common
+    install_recommends: No
+  with_items: "{{ packages_common }}"
+  retries: 3
+  delay: 10
+  until: apt_result|success
+  register: apt_result
   tags:
     - packages
 
@@ -29,5 +37,9 @@
     upgrade: safe
     #dpkg_options: 'force-confold,force-confdef'
   when: apt_upgrade|bool
+  retries: 3
+  delay: 10
+  until: apt_result|success
+  register: apt_result
   tags:
     - packages

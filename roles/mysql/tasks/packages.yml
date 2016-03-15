@@ -2,8 +2,13 @@
 ---
 - name: 'Install MySQL'
   apt:
-    pkg: "{{item}}"
+    pkg: "{{ item }}"
     state: present
-  with_items: packages_mysql
+    install_recommends: No
+  with_items: "{{ packages_mysql }}"
+  retries: 3
+  delay: 10
+  until: apt_result|success
+  register: apt_result
   tags:
     - packages
