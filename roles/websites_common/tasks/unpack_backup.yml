@@ -15,7 +15,7 @@
     group: 'www-data'
     mode: 0750
   when: not item.stat.exists
-  with_items: www_stat.results
+  with_items: "{{ www_stat.results }}"
 
 - name: 'Unpack backup'
   become_user: "{{ item.item.user }}"
@@ -23,4 +23,4 @@
     src: "{{ backup_path }}/{{ item.item.key }}.tgz"
     dest: "{{ web_home_path }}/{{ item.item.value.user }}/www/{{ item.item.key }}"
   when: not item.stat.exists and item.item.value.backup is defined
-  with_items: www_stat.results
+  with_items: "{{ www_stat.results }}"

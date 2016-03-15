@@ -31,7 +31,7 @@
     src: "{{ backup_path }}/{{ item.item.key }}.sql.gz"
     dest: '/tmp/'
   when: item.changed and item.item.value.mysql.backup_path is defined
-  with_items: reg_mysql.results
+  with_items: "{{ reg_mysql.results }}"
 
 
 - name: 'Import DB'
@@ -40,6 +40,6 @@
     name: "{{ item.item.value.user[:16] }}"
     target: "/tmp/{{ item.item.key }}.sql.gz"
   when: item.changed and item.item.value.mysql.backup_path is defined
-  with_items: reg_mysql.results
+  with_items: "{{ reg_mysql.results }}"
   tags:
     - mysql

@@ -9,7 +9,7 @@
   always_run: yes
   run_once: yes
   no_log: yes
-  with_dict: users
+  with_dict: "{{ users }}"
 
 - name: 'Create empty local dirs replace_files (only once)'
   file:
@@ -20,7 +20,7 @@
   always_run: yes
   run_once: yes
   no_log: yes
-  with_dict: users
+  with_dict: "{{ users }}"
 
 - name: 'Copy files to home directory (force: No)'
   copy:
@@ -29,7 +29,7 @@
     owner: "{{ item.key }}"
     group: "{{ item.key }}"
     force: No
-  with_dict: users
+  with_dict: "{{ users }}"
 
 - name: 'Copy files to home directory (force: Yes)'
   copy:
@@ -38,4 +38,4 @@
     owner: "{{ item.key }}"
     group: "{{ item.key }}"
     force: Yes
-  with_dict: users
+  with_dict: "{{ users }}"
