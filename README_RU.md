@@ -23,10 +23,10 @@ You can select different roles for you servers (Nginx, Apache, uwsgi, MySQL, Pos
 users:
   john_scott:
     comment: 'John Scott'
-    groups: 'sudo,adm'
+    groups: 'adm,sudo,no_passwd_sudo'
   first_last:
     comment: 'First Last'
-    groups: 'sudo,adm'
+    groups: 'adm,sudo,no_passwd_sudo'
 ```
 
 * Создайте для пользователей директории вида: `roles/user_access/files/replace_files/john_scott`, файлы из них будут заменять файлы на удалённых хостах при каждом применении конфигурации Ansible.
@@ -55,6 +55,11 @@ ansible-playbook -i inventory/example websites_roles.yml --limit=srv01.example.c
 ### Словарь all_websites
 
 * `state` — absent/present, по умолчанию present, в случае если будет выбран absent, то удалятся symlink'и на конфигурации и сервисам будет отправлен сигнал reload;
+
+#### Роль user_access
+
+Опции:
+* `no_passwd_sudo` — если No/False, то файл `/etc/sudoers.d/no_passwd_sudo` не будет скопирован, default = Yes;
 
 #### Роль nginx
 

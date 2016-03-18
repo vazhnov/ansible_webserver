@@ -1,0 +1,9 @@
+# File: roles/user_access/tasks/no_passwd_sudo.yml
+---
+- name: 'Copy /etc/sudoers.d/no_passwd_sudo'
+  copy:
+    src: 'sudoers_no_passwd_sudo'
+    dest: '/etc/sudoers.d/no_passwd_sudo'
+    owner: 'root'
+    group: 'root'
+    mode: 0440
