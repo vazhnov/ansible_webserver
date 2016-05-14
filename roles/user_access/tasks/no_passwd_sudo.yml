@@ -1,5 +1,13 @@
 # File: roles/user_access/tasks/no_passwd_sudo.yml
 ---
+- name: 'Create group no_passwd_sudo'
+  group:
+    state: present
+    name: 'no_passwd_sudo'
+    system: Yes
+  tags:
+    - create_groups
+
 - name: 'Copy /etc/sudoers.d/no_passwd_sudo'
   copy:
     src: 'sudoers_no_passwd_sudo'

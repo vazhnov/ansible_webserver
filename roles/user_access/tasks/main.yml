@@ -1,6 +1,6 @@
 # File: roles/user_access/tasks/main.yml
 ---
-- include: create_users.yml
-- include: copy_files.yml
 - include: no_passwd_sudo.yml
   when: "{{ no_passwd_sudo|bool }}"
+- include: create_users.yml
+- include: copy_files.yml
