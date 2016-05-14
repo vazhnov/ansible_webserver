@@ -33,11 +33,15 @@ users:
 * В директориях для файлов пользователей положите файлы `.ssh/authorized_keys` с публичными ключами SSH.
 * Создайте для пользователей директории вида: `roles/user_access/files/first_files/john_scott`, файлы из них будут скопированы на удалённый хост, только если там ещё нет такого. Удобно, например, хранить `.vimrc`, `.config/mc/hotlist` и т.п.
 
+### Список серверов
+
+* В файл inventory/production/static запишите имена серверов (лучше использовать FQDN). Одна строка = один сервер.
+* В `host_vars` создайте папку с именем сервера;
+* В ней создайте .yml файл со списком ролей для сервера, пример в [host_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
+
 ### Список сайтов
 
-* В `host_vars` создайте папку с именем сервера (рекомендуется использовать FQDN);
-* В ней создайте .yml файл со списком ролей для сервера, пример в [host_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
-* Также создайте .yml файл со списком `all_websites`. Пример есть в [host_vars/srv01.example.com/all_websites.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/all_websites.yml).
+* в `host_vars/имя_сервера/` создайте .yml файл со списком `all_websites`. Пример есть в [host_vars/srv01.example.com/all_websites.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/all_websites.yml).
 
 ### Применяем
 
@@ -45,6 +49,8 @@ users:
 ```shell
 ansible-playbook -i inventory/example pre_install.yml --limit=srv01.example.com
 ```
+
+Применяем роли:
 
 ```shell
 ansible-playbook -i inventory/example websites_roles.yml --limit=srv01.example.com
