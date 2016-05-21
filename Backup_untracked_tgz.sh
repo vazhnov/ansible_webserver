@@ -9,6 +9,5 @@
 # how to set default values.
 # No need in quotes here!
 BACKUPDIR=${1:-~/tmp/ansible_webserver_backup}
-echo "${BACKUPDIR}"
-test -d "${BACKUPDIR}" || mkdir -p "${BACKUPDIR}"
+test -d "${BACKUPDIR}" || mkdir -vp "${BACKUPDIR}"
 git ls-files --ignored --exclude-standard -z | xargs -0 tar -czvf "${BACKUPDIR}/backup-untracked_$(date +%F_%H-%M-%S).tgz"
