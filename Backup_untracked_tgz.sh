@@ -10,4 +10,4 @@
 # No need in quotes here!
 BACKUPDIR=${1:-~/tmp/ansible_webserver_backup}
 test -d "${BACKUPDIR}" || mkdir -vp "${BACKUPDIR}"
-git ls-files --others --ignored --exclude-standard -z | xargs -0 tar -czvf "${BACKUPDIR}/backup-untracked_$(date +%F_%H-%M-%S).tgz"
+git ls-files --others -z | xargs -0 tar -czvf "${BACKUPDIR}/backup-untracked_$(date +%F_%H-%M-%S).tgz"

@@ -11,6 +11,6 @@
 BACKUPDIR=${1:-../ansible_webserver_private}
 echo "${BACKUPDIR}"
 test -d "${BACKUPDIR}" || mkdir -vp "${BACKUPDIR}"
-git ls-files --others --ignored --exclude-standard -z | xargs -0 cp --parents -p -t "${BACKUPDIR}"
+git ls-files --others -z | xargs -0 cp --parents -p -t "${BACKUPDIR}"
 cd "${BACKUPDIR}"
 git status
