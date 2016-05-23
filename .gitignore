@@ -6,3 +6,5 @@ group_vars/all/users.yml
 host_vars/
 roles/user_access/files/first_files/
 roles/user_access/files/replace_files/
+roles/apache/templates/my_*
+roles/nginx/templates/my_*
