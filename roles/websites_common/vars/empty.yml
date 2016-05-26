@@ -1,6 +1,5 @@
 # File: roles/websites_common/vars/empty.yml
 #
 # For using with 'include_vars' + 'with_first_found'
-#
-# Add distributive-specific values to, for example, vars/os_Ubuntu_14.04.yml
+# Add distributive-specific values to file, for example, vars/os_Ubuntu_14.04.yml
 ---
