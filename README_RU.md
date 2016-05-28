@@ -7,6 +7,15 @@ You can select different roles for you servers (Nginx, Apache, uwsgi, MySQL, Pos
 
 ## Первые шаги
 
+### Ansible
+
+Установите Ansible из репозитория:
+```shell
+sudo apt-get install ansible
+```
+
+Если не устраивает версия Ansible, можно подключить [ppa:ansible/ansible](https://launchpad.net/~ansible/+archive/ubuntu/ansible) или [ppa:ansible/ansible-1.9](https://launchpad.net/~ansible/+archive/ubuntu/ansible-1.9).
+
 ### SSH
 
 Настройте `~/.ssh/config`.
@@ -49,6 +58,8 @@ users:
 ```shell
 ansible-playbook -i inventory/example pre_install.yml --limit=srv01.example.com
 ```
+
+Если для sudo нужен пароль, добавьте опцию `--ask-sudo-pass`.
 
 Применяем роли:
 
