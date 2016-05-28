@@ -1,4 +1,4 @@
-# File: roles/websites_common/tasks/empty.yml
+# File: roles/postgresql/tasks/empty.yml
 #
 # For using with 'include' + 'with_first_found'
 # Add distributive-specific tasks to file, for example:

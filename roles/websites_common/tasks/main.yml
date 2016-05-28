@@ -15,7 +15,7 @@
 - include: ntp.yml
 - include: unpack_backup.yml
 
-- name: 'Include/replace distributive-specific tasks'
+- name: 'Include distributive-specific tasks'
   include: "{{ item }}"
   with_first_found:
     - "name_{{ inventory_hostname }}.yml"
