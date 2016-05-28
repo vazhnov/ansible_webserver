@@ -3,5 +3,5 @@
 # You can keep ~/.ssh/config in 'vcsh'.
 #
 #[mytestservers]
-#srv01.example.com	ansible_ssh_port=2
+#srv01.example.com	ansible_ssh_port=22 ansible_ssh_host=192.168.56.101 ansible_ssh_user=user1
 srv01.example.com
