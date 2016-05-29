@@ -9,5 +9,5 @@
   gather_facts: No
   sudo: Yes
   tasks:
-    - name: 'apt-get install -y python-minimal python-apt'
-      raw: apt-get install -y python-minimal python-apt
+    - name: 'apt-get install -y python-minimal python-apt sudo'
+      raw: apt-get install -y python-minimal python-apt sudo
