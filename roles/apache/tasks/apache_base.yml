@@ -1,37 +1,43 @@
 # File: roles/apache/tasks/apache_base.yml
 ---
-- file:
+- name: 'Remove /etc/apache2/sites-enabled/000-default.conf'
+  file:
     state: absent
     dest: '/etc/apache2/sites-enabled/000-default.conf'
   tags:
     - configuration
 
-- file:
+- name: 'Remove /etc/apache2/mods-enabled/autoindex.load'
+  file:
     state: absent
     dest: '/etc/apache2/mods-enabled/autoindex.load'
   tags:
     - configuration
 
-- file:
+- name: 'Remove /etc/apache2/mods-enabled/autoindex.conf'
+  file:
     state: absent
     dest: '/etc/apache2/mods-enabled/autoindex.conf'
   tags:
     - configuration
 
-- file:
+- name: 'Create symlynk /etc/apache2/mods-enabled/rewrite.load'
+  file:
     state: link
     dest: '/etc/apache2/mods-enabled/rewrite.load'
     src: '../mods-available/rewrite.load'
   tags:
     - configuration
 
-- copy:
+- name: 'Copy /etc/apache2/ports.conf'
+  copy:
     dest: '/etc/apache2/ports.conf'
     src: 'ports.conf'
   tags:
     - configuration
 
-- copy:
+- name: 'Copy /etc/logrotate.d/apache2'
+  copy:
     dest: '/etc/logrotate.d/apache2'
     src: 'logrotate_apache2'
   tags:
