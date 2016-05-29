@@ -9,7 +9,7 @@ You can select different roles for you servers (Nginx, Apache, uwsgi, MySQL, Pos
 
 ### Ansible
 
-Установите Ansible из репозитория:
+Установите Ansible на ваш рабочий компьютер (на сервер не нужно) из репозитория:
 ```shell
 sudo apt-get install ansible
 ```
