@@ -6,8 +6,8 @@
 - hosts: all
   sudo: yes
   roles:
-    - user_access
     - websites_common
+    - { role: user_access, when: "'user_access' in roles" }
     - { role: nginx, when: "'nginx' in roles" }
     - { role: apache, when: "'apache' in roles" }
     - { role: uwsgi, when: "'uwsgi' in roles" }
