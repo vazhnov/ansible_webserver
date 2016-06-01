@@ -70,7 +70,7 @@ server {
 	server_name{% for i in item.value.serveralias %} {{ i }}{% endfor %};
 	listen 443 ssl spdy;
 	listen [::]:443 ssl spdy;
-	rewrite ^/(.*)$ https://{{ item.key }}/$1 permanent;
+	return 301 https://{{ item.key }}$request_uri;
 	access_log off;
 	error_log /var/log/nginx/{{ item.key }}/error.log;
 }
