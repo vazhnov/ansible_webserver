@@ -20,7 +20,7 @@
 - name: 'Unpack backup'
   become_user: "{{ item.item.user }}"
   unarchive:
-    src: "{{ backup_path }}/{{ item.item.key }}.tgz"
+    src: "{{ backup_path_base }}/{{ item.item.key }}.tgz"
     dest: "{{ web_home_path }}/{{ item.item.value.user }}/www/{{ item.item.key }}"
   when: not item.stat.exists and item.item.value.backup is defined
   with_items: "{{ www_stat.results }}"
