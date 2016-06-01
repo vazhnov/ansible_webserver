@@ -18,7 +18,12 @@ sudo apt-get install ansible
 
 ### SSH
 
-Настройте `~/.ssh/config`.
+Настройте `~/.ssh/config`, чтобы был доступ к серверу просто по каманде `ssh имя_сервера`, например:
+```
+Host srv01.example.com
+ Port 2222
+ User myuser
+```
 
 ### Учётные записи пользователей
 
