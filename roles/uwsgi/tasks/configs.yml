@@ -4,6 +4,7 @@
   template:
     src: "{{ item.value.tmpl_uwsgi | default('lamp') }}.j2"
     dest: "/etc/uwsgi/apps-available/{{ item.key }}.ini"
+    backup: Yes
   when: item.value.tmpl_uwsgi is defined
   with_dict: "{{ all_websites }}"
   notify:

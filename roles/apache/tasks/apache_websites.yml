@@ -4,6 +4,7 @@
   template:
     src: "{{ item.value.apache.template }}.j2"
     dest: "/etc/apache2/sites-available/{{ item.key }}.conf"
+    backup: Yes
   when: item.value.apache.template is defined
   with_dict: "{{ all_websites }}"
   notify:
