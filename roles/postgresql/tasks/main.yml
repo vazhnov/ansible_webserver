@@ -1,7 +1,7 @@
 # File: roles/postgresql/tasks/main.yml
 ---
 - include: packages.yml
-- include: postgresql.yml
+- include: postgresql_websites.yml
 
 - name: 'Include distributive-specific tasks'
   include: "{{ item }}"

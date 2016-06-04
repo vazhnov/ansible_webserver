@@ -1,4 +1,4 @@
-# File: roles/uwsgi/tasks/configs.yml
+# File: roles/uwsgi/tasks/uwsgi_websites.yml
 ---
 - name: 'Create uwsgi template'
   template:

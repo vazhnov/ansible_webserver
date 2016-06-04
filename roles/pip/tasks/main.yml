@@ -1,7 +1,7 @@
 # File: roles/pip/tasks/main.yml
 ---
 - include: packages.yml
-- include: pip.yml
+- include: pip_websites.yml
 
 - name: 'Include distributive-specific tasks'
   include: "{{ item }}"

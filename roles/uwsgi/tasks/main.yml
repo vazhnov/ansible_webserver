@@ -1,7 +1,7 @@
 # File: roles/uwsgi/tasks/main.yml
 ---
 - include: packages.yml
-- include: configs.yml
+- include: uwsgi_websites.yml
 
 - name: 'Include distributive-specific tasks'
   include: "{{ item }}"

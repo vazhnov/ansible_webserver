@@ -1,7 +1,7 @@
-# File: roles/postgresql/tasks/main.yml
+# File: roles/mysql/tasks/main.yml
 ---
 - include: packages.yml
-- include: mysql.yml
+- include: mysql_websites.yml
 
 - name: 'Include distributive-specific tasks'
   include: "{{ item }}"
