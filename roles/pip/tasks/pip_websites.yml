@@ -17,7 +17,7 @@
     requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
     extra_args: '--user'
   when: item.item.value.pip.requirements_file is defined and item.changed
-  with_items: reg_requirements.results
+  with_items: "{{ reg_requirements.results }}"
 
 - name: 'Create requirements.txt from pip.requirements_list'
   template:
@@ -36,4 +36,4 @@
     requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
     extra_args: '--user'
   when: item.item.value.pip.requirements_list is defined and item.changed
-  with_items: reg_requirements_list.results
+  with_items: "{{ reg_requirements_list.results }}"
