@@ -113,6 +113,18 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 Опции:
 * `requirements_file` — список;
 
+## Адаптация
+
+В каждой роли можно добавить задачи с именем сервера, либо с версией ОС, используется «with_first_found»:
+
+* "name_{{ inventory_hostname }}.yml"
+* "os_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
+* "os_{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+* "os_{{ ansible_distribution }}.yml"
+* empty.yml
+
+Свои шаблоны в ролях рекомендуется называть my_*, так они будут автоматически попадать под правила gitignore.
+
 ## Полезные команды
 
 * `git ls-files --ignored --exclude-standard` — посмотреть список игнорируемых файлов;
