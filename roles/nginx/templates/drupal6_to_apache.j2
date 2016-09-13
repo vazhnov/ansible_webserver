@@ -1,0 +1,63 @@
+{% if item.value.nginx.limit_req|default('Yes')|bool %}
+limit_req_zone $binary_remote_addr zone=dos_{{ item.key }}:{{ item.value.nginx.limit_req_size|default('2m') }} rate={{ item.value.nginx.limit_req_rate|default('3r/s') }};
+{% endif %}
+
+server {
+	server_name {{ item.key }};
+	listen 80;
+	listen [::]:80;
+	root /var/www/{{ item.value.user }}/www/{{ item.key }};
+	access_log /var/log/nginx/{{ item.key }}/access.log;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
+
+	gzip on;
+	gzip_types text/plain application/xml text/css text/js text/xml application/javascript;
+{% if item.value.nginx.root_options is defined %}
+
+{% for i in item.value.nginx.root_options %}
+	{{ i }};
+{% endfor %}
+{% endif %}
+
+	location / {
+		try_files $uri @proxy;
+	}
+
+	location @proxy {
+{% if item.value.nginx.limit_req|default('Yes')|bool %}
+		limit_req zone=dos_{{ item.key }} burst={{ item.value.nginx.limit_req_burst|default('10') }} nodelay;
+{% endif %}
+		proxy_set_header X-Real-IP  $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		proxy_set_header Host $host;
+		proxy_pass http://127.0.0.1:8080;
+	}
+
+	location = /favicon.ico {
+		log_not_found off;
+		access_log off;
+	}
+
+	location = /robots.txt {
+		allow all;
+		log_not_found off;
+		access_log off;
+	}
+
+	location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+		try_files $uri @proxy;
+		expires max;
+		log_not_found off;
+	}
+}
+{% if item.value.serveralias is defined %}
+
+server {
+	server_name{% for i in item.value.serveralias %} {{ i }}{% endfor %};
+	listen 80;
+	listen [::]:80;
+	return 301 http://{{ item.key }}$request_uri;
+	access_log off;
+	error_log /var/log/nginx/{{ item.key }}/error.log;
+}
+{% endif %}
