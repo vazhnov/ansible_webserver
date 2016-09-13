@@ -86,6 +86,7 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 #### Роль nginx
 
 Опции:
+* `template` — имя шаблона из [roles/nginx/templates/](https://github.com/vazhnov/ansible_webserver/tree/master/roles/nginx/templates/);
 * `root_options` — список;
 * `limit_req` — bool, default = Yes;
 * `limit_req_size` — default = 2m;
@@ -95,6 +96,7 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 #### Роль apache
 
 Опции:
+* `template` — имя шаблона из [roles/apache/templates/](https://github.com/vazhnov/ansible_webserver/tree/master/roles/apache/templates/);
 * `php_admin_value` — список;
 
 #### Роль postgresql
