@@ -72,6 +72,16 @@ server {
 		proxy_pass http://127.0.0.1:8080;
 	}
 
+	location ^~ /simpla/design/js/tiny_mce/plugins/ {
+		proxy_set_header X-Real-IP  $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		proxy_set_header Host $host;
+		proxy_set_header SERVER_PROTOCOL $server_protocol;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header HTTPS "on";
+		proxy_pass http://127.0.0.1:8080;
+	}
+
 	location ^~ /js/ {
 		access_log off;
 	}
