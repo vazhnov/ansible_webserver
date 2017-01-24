@@ -5,8 +5,8 @@
 
 	CustomLog /var/log/apache2/{{ item.key }}/access.log vhost_combined
 	ErrorLog /var/log/apache2/{{ item.key }}/error.log
-{% if item.value.php_admin_value is defined %}
-{% for i in item.value.php_admin_value %}
+{% if item.value.apache.php_admin_value is defined %}
+{% for i in item.value.apache.php_admin_value %}
 	php_admin_value {{ i }}
 {% endfor %}
 {% endif %}
