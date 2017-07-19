@@ -49,7 +49,7 @@ users:
 
 ### Список серверов
 
-* В файл inventory/production/static запишите имена серверов (лучше использовать FQDN). Одна строка = один сервер.
+* В файл `inventory/production/static` запишите имена серверов (лучше использовать FQDN). Одна строка = один сервер.
 * В `host_vars` создайте папку с именем сервера;
 * В ней создайте .yml файл со списком ролей для сервера, пример в [host_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
 
@@ -81,7 +81,7 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 #### Роль user_access
 
 Опции:
-* `no_passwd_sudo` — если No/False, то файл `/etc/sudoers.d/no_passwd_sudo` не будет скопирован, default = Yes;
+* `no_passwd_sudo` — если No/False, то файл `/etc/sudoers.d/no_passwd_sudo` не будет скопирован (по умолчанию = Yes);
 
 #### Роль nginx
 
