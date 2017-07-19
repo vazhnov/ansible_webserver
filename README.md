@@ -15,6 +15,6 @@ Examples are in repository.
 * One user = one website
 * For first server configuring and restoring websites from backups, not for everyday updating packeges in pip
 
-# License
+# Copyright
 
 Distributed under MIT license.

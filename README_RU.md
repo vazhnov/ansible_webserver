@@ -142,6 +142,6 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 * Одна учётная запись пользователя = один web-сайт;
 * For first server configuring and restoring websites from backups, not for everyday updating packeges in pip
 
-## Лицензия
+## Авторское право
 
-Распространяется под лицензией MIT.
+Весь контент этого репозитория распространяется под свободной лицензией MIT.
