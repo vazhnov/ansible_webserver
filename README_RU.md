@@ -1,4 +1,4 @@
-Конфигурация Ansible для настройки Debian/Ubuntu в качестве web-сервера.
+# Конфигурация Ansible для настройки Debian/Ubuntu в качестве web-сервера
 
 Находится в стадии разработки.
 
@@ -10,7 +10,8 @@ You can select different roles for you servers (Nginx, Apache, uwsgi, MySQL, Pos
 ### Ansible
 
 Установите Ansible на ваш рабочий компьютер (на сервер не нужно) из репозитория:
-```shell
+
+```bash
 sudo apt-get install ansible
 ```
 
@@ -19,7 +20,8 @@ sudo apt-get install ansible
 ### SSH
 
 Настройте `~/.ssh/config`, чтобы был доступ к серверу просто по команде `ssh имя_сервера`, например:
-```
+
+```text
 Host srv01.example.com
  Port 2222
  User myuser
@@ -51,15 +53,16 @@ users:
 
 * В файл `inventory/production/static` запишите имена серверов (лучше использовать FQDN). Одна строка = один сервер.
 * В `host_vars` создайте папку с именем сервера;
-* В ней создайте .yml файл со списком ролей для сервера, пример в [host_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
+* В ней создайте .yml файл со списком ролей для сервера, пример в [host\_vars/srv01.example.com/roles.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/roles.yml).
 
 ### Список сайтов
 
-* в `host_vars/имя_сервера/` создайте .yml файл со списком `all_websites`. Пример есть в [host_vars/srv01.example.com/all_websites.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/all_websites.yml).
+* в `host_vars/имя_сервера/` создайте .yml файл со списком `all_websites`. Пример есть в [host\_vars/srv01.example.com/all\_websites.yml](https://github.com/vazhnov/ansible_webserver/blob/master/host_vars/srv01.example.com/all_websites.yml).
 
 ### Применяем
 
 В первый раз, чтобы установить Python:
+
 ```shell
 ansible-playbook -i inventory/production pre_install.yml --limit=srv01.example.com
 ```
@@ -74,18 +77,20 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 
 ## Подробная настройка
 
-### Словарь all_websites
+### Словарь all\_websites
 
 * `state` — absent/present, по умолчанию present, в случае если будет выбран absent, то удалятся symlink'и на конфигурации и сервисам будет отправлен сигнал reload;
 
-#### Роль user_access
+#### Роль user\_access
 
 Опции:
+
 * `no_passwd_sudo` — если No/False, то файл `/etc/sudoers.d/no_passwd_sudo` не будет скопирован (по умолчанию = Yes);
 
 #### Роль nginx
 
 Опции:
+
 * `template` — имя шаблона из [roles/nginx/templates/](https://github.com/vazhnov/ansible_webserver/tree/master/roles/nginx/templates/);
 * `root_options` — список;
 * `limit_req` — bool, default = Yes;
@@ -96,36 +101,40 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 #### Роль apache
 
 Опции:
+
 * `template` — имя шаблона из [roles/apache/templates/](https://github.com/vazhnov/ansible_webserver/tree/master/roles/apache/templates/);
 * `php_admin_value` — список;
 
 #### Роль postgresql
 
 Опции:
+
 * `backup_path` — если задан, то при создании БД для сайта, будет загружен дамп с локальной машины;
 
 #### Роль mysql
 
 Опции:
+
 * `backup_path` — если задан, то при создании БД для сайта, будет загружен дамп с локальной машины;
 * `password` — пароль на MySQL;
 
 #### Роль pip
 
 Опции:
-* `requirements_file` — список;
+
+* `requirements_file` — список пакетов pip;
 
 ## Адаптация
 
-В каждой роли можно добавить задачи с именем сервера, либо с версией ОС, используется «with_first_found»:
+В каждой роли можно добавить задачи с именем сервера, либо с версией ОС, используется «with\_first\_found»:
 
-* "name_{{ inventory_hostname }}.yml"
-* "os_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
-* "os_{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
-* "os_{{ ansible_distribution }}.yml"
-* empty.yml
+* `"name_{{ inventory_hostname }}.yml"`
+* `"os_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"`
+* `"os_{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"`
+* `"os_{{ ansible_distribution }}.yml"`
+* `empty.yml`
 
-Свои шаблоны в ролях рекомендуется называть my_*, так они будут автоматически попадать под правила gitignore.
+Свои шаблоны в ролях рекомендуется называть my\_*, так они будут автоматически попадать под правила gitignore.
 
 ## Полезные команды
 
@@ -139,6 +148,7 @@ ansible-playbook -i inventory/production websites_roles.yml --limit=srv01.exampl
 
 ## Известные ограничения
 
+* Создание учётных записей с паролями не поддерживается, используйте SSH ключи и беспарольный sudo;
 * Одна учётная запись пользователя = один web-сайт;
 * For first server configuring and restoring websites from backups, not for everyday updating packeges in pip
 
