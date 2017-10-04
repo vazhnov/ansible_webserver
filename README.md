@@ -2,6 +2,12 @@ Ansible playbooks for configuring Debian/Ubuntu web server.
 
 Not ready yet!!!
 
+## Documentation
+
+* [README\_RU](README_RU.md)
+* [README\_EN](README_EN.md)
+
+
 You can select different roles for you servers (Nginx, Apache, uwsgi, MySQL, PostgreSQL) and list with websites.
 Examples are in repository.
 
