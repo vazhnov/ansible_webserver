@@ -1,10 +1,12 @@
-limit_req_zone $binary_remote_addr zone=dos_{{ item.key }}:2m rate=3r/s;
+{% if item.value.nginx.limit_req|default('Yes')|bool %}
+limit_req_zone $binary_remote_addr zone=dos_{{ item.key }}:{{ item.value.nginx.limit_req_size|default('2m') }} rate={{ item.value.nginx.limit_req_rate|default('3r/s') }};
+{% endif %}
 
 server {
 	server_name {{ item.key }}{% if item.value.serveralias is defined %}{% for i in item.value.serveralias %} {{ i }}{% endfor %}{% endif %};
 	listen 80;
 	listen [::]:80;
-	rewrite ^/(.*)$ https://{{ item.key }}/$1 permanent;
+	return 301 https://{{ item.key }}$request_uri;
 	access_log off;
 	error_log /var/log/nginx/{{ item.key }}/error.log;
 }
@@ -38,7 +40,9 @@ server {
 	ssl_session_timeout 20m;
 
 	location / {
-		limit_req zone=dos_{{ item.key }} burst=10 nodelay;
+{% if item.value.nginx.limit_req|default('Yes')|bool %}
+		limit_req zone=dos_{{ item.key }} burst={{ item.value.nginx.limit_req_burst|default('10') }} nodelay;
+{% endif %}
 		proxy_set_header X-Real-IP  $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 		proxy_set_header Host $host;
