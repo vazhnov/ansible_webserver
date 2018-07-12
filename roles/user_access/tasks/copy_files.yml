@@ -5,8 +5,8 @@
     state: directory
     path: "{{ playbook_dir }}/roles/user_access/files/first_files/{{ item.key }}"
   delegate_to: 127.0.0.1
-  sudo: false
-  always_run: yes
+  become: false
+  check_mode: no
   run_once: yes
   no_log: yes
   with_dict: "{{ users }}"
@@ -16,8 +16,8 @@
     state: directory
     path: "{{ playbook_dir }}/roles/user_access/files/replace_files/{{ item.key }}"
   delegate_to: 127.0.0.1
-  sudo: false
-  always_run: yes
+  become: false
+  check_mode: no
   run_once: yes
   no_log: yes
   with_dict: "{{ users }}"
