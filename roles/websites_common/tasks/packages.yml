@@ -14,7 +14,7 @@
     cache_valid_time: 43200
   retries: 3
   delay: 10
-  until: apt_result|success
+  until: apt_result is success
   register: apt_result
   tags:
     - packages
@@ -27,7 +27,7 @@
   with_items: "{{ packages_common }}"
   retries: 3
   delay: 10
-  until: apt_result|success
+  until: apt_result is success
   register: apt_result
   tags:
     - packages
@@ -39,7 +39,7 @@
   when: apt_upgrade|bool
   retries: 3
   delay: 10
-  until: apt_result|success
+  until: apt_result is success
   register: apt_result
   tags:
     - packages

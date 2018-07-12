@@ -8,7 +8,7 @@
   with_items: "{{ packages_pip }}"
   retries: 3
   delay: 10
-  until: apt_result|success
+  until: apt_result is success
   register: apt_result
   tags:
     - packages
