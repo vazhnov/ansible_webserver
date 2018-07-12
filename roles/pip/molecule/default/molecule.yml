@@ -1,0 +1,24 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: srv01.example.com
+    image: debian:latest
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  inventory:
+    links:
+      group_vars: ../../../../group_vars/
+      host_vars: ../../../../host_vars/
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
