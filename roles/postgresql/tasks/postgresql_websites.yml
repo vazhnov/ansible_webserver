@@ -1,6 +1,7 @@
 # File: roles/postgresql/tasks/postgresql_websites.yml
 ---
 - name: 'Create PostgreSQL user'
+  become: true
   become_user: 'postgres'
   postgresql_user:
     name: "{{ item.value.user }}"
@@ -10,6 +11,7 @@
   when: item.value.db_type == 'postgresql'
 
 - name: 'Create PostgreSQL database'
+  become: true
   become_user: 'postgres'
   postgresql_db:
     name: "{{ item.value.user }}"
@@ -22,6 +24,7 @@
 
   # TODO: Maybe module 'get_url' would be better choose
 - name: 'Upload DB backup'
+  become: true
   become_user: "{{ item.item.value.user }}"
   copy:
     src: "{{ backup_path }}/{{ item.item.key }}.sql.gz"
@@ -30,12 +33,14 @@
   with_items: "{{ reg_postgres.results }}"
 
 - name: 'Unpack dump'
+  become: true
   become_user: "{{ item.item.value.user }}"
   shell: "gunzip --force /tmp/{{ item.item.key }}.sql.gz"
   when: "{{ item.changed and item.item.value.postgresql.backup_path is defined }}"
   with_items: "{{ reg_postgres.results }}"
 
 - name: 'Import sql dump to PostgreSQL'
+  become: true
   become_user: "{{ item.item.value.user }}"
   shell: "psql {{ item.item.value.user }} -f /tmp/{{ item.item.key }}.sql"
   when: item.changed and item.item.value.postgresql.backup_path is defined

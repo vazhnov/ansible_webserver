@@ -12,6 +12,7 @@
   register: reg_requirements
 
 - name: 'pip install if requirements.txt was changed'
+  become: true
   become_user: "{{ item.item.value.user }}"
   pip:
     requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
@@ -31,6 +32,7 @@
   register: reg_requirements_list
 
 - name: 'pip install if requirements.txt was changed from list'
+  become: true
   become_user: "{{ item.item.value.user }}"
   pip:
     requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
