@@ -8,6 +8,9 @@ lint:
 platforms:
   - name: srv01.example.com
     image: debian:latest
+    dns_servers:
+      - 10.66.0.4
+      - 10.66.0.6
 provisioner:
   name: ansible
   lint:
