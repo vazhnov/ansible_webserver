@@ -1,7 +1,7 @@
 # File: roles/pip/defaults/main.yml
 ---
 packages_pip:
-  - python-imaging
+  - python-pil
   - python-psycopg2
   - python-pip
   - python-virtualenv
