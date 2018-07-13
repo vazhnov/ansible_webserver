@@ -18,6 +18,7 @@
   with_items: "{{ www_stat.results }}"
 
 - name: 'Unpack backup'
+  become: true
   become_user: "{{ item.item.user }}"
   unarchive:
     src: "{{ backup_path_base }}/{{ item.item.key }}.tgz"
