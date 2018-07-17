@@ -24,6 +24,8 @@
     - item.item.value.pip.requirements_file is defined
     - item.changed
   with_items: "{{ reg_requirements.results }}"
+  tags:
+    - skip_ansible_lint
 
 - name: 'Create requirements.txt from pip.requirements_list'
   template:
@@ -49,3 +51,5 @@
     - item.item.value.pip.requirements_list is defined
     - item.changed
   with_items: "{{ reg_requirements_list.results }}"
+  tags:
+    - skip_ansible_lint
