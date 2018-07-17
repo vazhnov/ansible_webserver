@@ -3,6 +3,7 @@
 - include: packages.yml
 - include: base_files_nginx.yml
 - include: nginx_websites.yml
+- include: nginx_start.yml
 
 - name: 'Include distributive-specific tasks'
   include: "{{ item }}"
