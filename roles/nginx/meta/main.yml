@@ -1,4 +1,4 @@
 # File: roles/nginx/meta/main.yml
 ---
 dependencies:
-- { role: websites_common }
+  - { role: websites_common }

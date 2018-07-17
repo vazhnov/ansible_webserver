@@ -1,0 +1,7 @@
+# File: roles/nginx/tasks/nginx_start.yml
+---
+- name: 'Start nginx'
+  service:
+    name: nginx
+    enabled: true
+    state: started
