@@ -4,7 +4,7 @@
   template:
     src: "{{ item.value.nginx.template }}.j2"
     dest: "/etc/nginx/sites-available/{{ item.key }}.conf"
-    backup: Yes
+    backup: true
   with_dict: "{{ all_websites }}"
   when: item.value.nginx.template is defined
   notify:

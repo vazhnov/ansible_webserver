@@ -9,3 +9,7 @@ roles/user_access/files/replace_files/
 roles/apache/templates/my_*
 roles/nginx/templates/my_*
 inventory/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]

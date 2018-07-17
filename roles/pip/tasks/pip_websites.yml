@@ -7,7 +7,9 @@
     owner: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
     mode: 0640
-  when: item.value.pip.requirements_file is defined
+  when:
+    - item.value.pip is defined
+    - item.value.pip.requirements_file is defined
   with_dict: "{{ all_websites }}"
   register: reg_requirements
 
@@ -17,8 +19,13 @@
   pip:
     requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
     extra_args: '--user'
-  when: item.item.value.pip.requirements_file is defined and item.changed
+  when:
+    - item.item.value.pip is defined
+    - item.item.value.pip.requirements_file is defined
+    - item.changed
   with_items: "{{ reg_requirements.results }}"
+  tags:
+    - skip_ansible_lint
 
 - name: 'Create requirements.txt from pip.requirements_list'
   template:
@@ -27,7 +34,9 @@
     owner: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
     mode: 0640
-  when: item.value.pip.requirements_list is defined
+  when:
+    - item.value.pip is defined
+    - item.value.pip.requirements_list is defined
   with_dict: "{{ all_websites }}"
   register: reg_requirements_list
 
@@ -37,5 +46,10 @@
   pip:
     requirements: "{{ web_home_path }}/{{ item.item.value.user }}/requirements.txt"
     extra_args: '--user'
-  when: item.item.value.pip.requirements_list is defined and item.changed
+  when:
+    - item.item.value.pip is defined
+    - item.item.value.pip.requirements_list is defined
+    - item.changed
   with_items: "{{ reg_requirements_list.results }}"
+  tags:
+    - skip_ansible_lint
