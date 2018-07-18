@@ -2,6 +2,11 @@ Ansible playbooks for configuring Debian/Ubuntu web server.
 
 Not ready yet!!!
 
+## Source
+
+* The main repository: https://gitlab.com/vazhnov/ansible\_webserver
+* Copy: https://github.com/vazhnov/ansible\_webserver
+
 ## Documentation
 
 * [README\_RU](README_RU.md)
