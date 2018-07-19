@@ -7,10 +7,10 @@
   become: true
   roles:
     - websites_common
-    - { role: user_access, when: "'user_access' in roles" }
-    - { role: nginx, when: "'nginx' in roles" }
-    - { role: apache, when: "'apache' in roles" }
-    - { role: uwsgi, when: "'uwsgi' in roles" }
-    - { role: postgresql, when: "'postgresql' in roles" }
-    - { role: mysql, when: "'mysql' in roles" }
-    - { role: pip, when: "'pip' in roles" }
+    - {role: user_access, when: "'user_access' in roles"}
+    - {role: nginx, when: "'nginx' in roles"}
+    - {role: apache, when: "'apache' in roles"}
+    - {role: uwsgi, when: "'uwsgi' in roles"}
+    - {role: postgresql, when: "'postgresql' in roles"}
+    - {role: mysql, when: "'mysql' in roles"}
+    - {role: pip, when: "'pip' in roles"}

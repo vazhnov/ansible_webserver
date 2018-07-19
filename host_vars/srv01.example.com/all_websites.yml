@@ -1,9 +1,9 @@
 # File: host_vars/srv01.example.com/all_websites.yml
 #
 # You can add parameters:
-#* state=absent
-#* check_status=403,404
-#* and php_admin_value
+# * state=absent
+# * check_status=403,404
+# * and php_admin_value
 ---
 all_websites:
   django.example.com:
@@ -12,7 +12,7 @@ all_websites:
       template: django
     user: examplecom
     pip:
-      #requirements_file: '/backup/websites/srv01.example.com.requirements.txt'
+      # requirements_file: '/backup/websites/srv01.example.com.requirements.txt'
       requirements_list:
         - 'Django==1.7.11'
     db_type: postgresql

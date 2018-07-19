@@ -5,8 +5,8 @@
   become_user: 'postgres'
   postgresql_user:
     name: "{{ item.value.user }}"
-    #password: '123'
-    #priv: ALL
+    # password: '123'
+    # priv: ALL
   with_dict: "{{ all_websites }}"
   when: item.value.db_type == 'postgresql'
 

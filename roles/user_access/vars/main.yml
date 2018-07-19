@@ -1,6 +1,6 @@
 # File: roles/user_access/vars/main.yml
 ---
-#users:
-#  user1:
-#    comment: 'Example User'
-#    groups: 'sudo,adm'
+# users:
+#   user1:
+#     comment: 'Example User'
+#     groups: 'sudo,adm'

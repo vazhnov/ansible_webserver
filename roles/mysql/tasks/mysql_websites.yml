@@ -24,7 +24,7 @@
   tags:
     - mysql
 
-  # TODO: Maybe module 'get_url' would be better choose
+# TODO: Maybe module 'get_url' would be better choose
 - name: 'Upload DB backup'
   become: true
   become_user: "{{ item.item.value.user }}"

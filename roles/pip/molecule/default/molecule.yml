@@ -11,6 +11,11 @@ platforms:
     dns_servers:
       - 10.66.0.4
       - 10.66.0.6
+  - name: srv02.example.com
+    image: ubuntu:latest
+    dns_servers:
+      - 10.66.0.4
+      - 10.66.0.6
 provisioner:
   name: ansible
   lint:

@@ -4,7 +4,7 @@
   group:
     state: present
     name: 'no_passwd_sudo'
-    system: Yes
+    system: true
   tags:
     - create_groups
 

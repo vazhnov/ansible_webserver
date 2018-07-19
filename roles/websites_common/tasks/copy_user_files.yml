@@ -6,9 +6,9 @@
     path: "{{ playbook_dir }}/roles/user_access/files/first_files/{{ item.value.user }}"
   delegate_to: 127.0.0.1
   become: false
-  check_mode: no
-  run_once: yes
-  no_log: yes
+  check_mode: false
+  run_once: true
+  no_log: true
   with_dict: "{{ all_websites }}"
 
 - name: 'Create empty local dirs replace_files (only once)'
@@ -17,9 +17,9 @@
     path: "{{ playbook_dir }}/roles/user_access/files/replace_files/{{ item.value.user }}"
   delegate_to: 127.0.0.1
   become: false
-  check_mode: no
-  run_once: yes
-  no_log: yes
+  check_mode: false
+  run_once: true
+  no_log: true
   with_dict: "{{ all_websites }}"
 
 - name: 'Copy files to websites home directory (force: No)'
@@ -28,7 +28,7 @@
     dest: "{{ web_home_path }}/{{ item.value.user }}"
     owner: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
-    force: No
+    force: false
   with_dict: "{{ all_websites }}"
 
 - name: 'Copy files to websites home directory (force: Yes)'
@@ -37,5 +37,5 @@
     dest: "{{ web_home_path }}/{{ item.value.user }}"
     owner: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
-    force: Yes
+    force: true
   with_dict: "{{ all_websites }}"

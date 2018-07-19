@@ -17,7 +17,7 @@
   apt:
     pkg: "{{ item }}"
     state: present
-    install_recommends: No
+    install_recommends: false
   with_items: "{{ packages_postgresql }}"
   retries: 3
   delay: 10

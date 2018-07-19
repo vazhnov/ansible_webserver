@@ -10,7 +10,7 @@
 
 - name: 'APT update once in day'
   apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 43200
   retries: 3
   delay: 10
@@ -23,7 +23,7 @@
   apt:
     pkg: "{{ item }}"
     state: present
-    install_recommends: No
+    install_recommends: false
   with_items: "{{ packages_common }}"
   retries: 3
   delay: 10
@@ -35,7 +35,7 @@
 - name: 'Safe-upgrade packages on new instance'
   apt:
     upgrade: safe
-    #dpkg_options: 'force-confold,force-confdef'
+    # dpkg_options: 'force-confold,force-confdef'
   when: apt_upgrade|bool
   retries: 3
   delay: 10

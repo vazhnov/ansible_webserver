@@ -2,8 +2,8 @@
 - name: 'Check remote website directory'
   stat:
     path: "{{ web_home_path }}/{{ item.value.user }}/www/{{ item.key }}"
-    follow: True
-    get_md5: False
+    follow: true
+    get_md5: false
   with_dict: "{{ all_websites }}"
   register: www_stat
 

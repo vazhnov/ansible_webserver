@@ -20,7 +20,7 @@
     name: "{{ item.value.user }}"
     group: "{{ item.value.user }}"
     home: "{{ web_home_path }}/{{ item.value.user }}"
-    move_home: no
+    move_home: false
     comment: "{{ item.key }}"
   with_dict: "{{ all_websites }}"
 
