@@ -1,0 +1,34 @@
+# File: host_vars/srv01.example.com/all_websites.yml
+#
+# You can add parameters:
+# * state=absent
+# * check_status=403,404
+# * and php_admin_value
+---
+all_websites:
+  django.example.com:
+    tmpl_uwsgi: django
+    nginx:
+      template: django
+    user: examplecom
+    pip:
+      # requirements_file: '/backup/websites/srv01.example.com.requirements.txt'
+      requirements_list:
+        - 'Django==1.7.11'
+    db_type: postgresql
+    serveralias:
+      - www.django.example.com
+  wordpress.example.com:
+    apache:
+      template: lamp
+    nginx:
+      template: lamp
+      root_options:
+        - client_max_body_size 32m
+    # For MySQL, used only first 16 symbols of 'user'
+    user: wordpressexamplecom
+    db_type: mysql
+    mysql:
+      password: j3HJywe4Xutx3FudcXd1at
+    serveralias:
+      - www.wordpress.example.com

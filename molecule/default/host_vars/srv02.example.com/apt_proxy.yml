@@ -1,0 +1,3 @@
+# If `apt_proxy` defined, file `/etc/apt/apt.conf.d/000apt-cacher-ng-proxy` will be created;
+---
+# apt_proxy: "http://aptproxy:3142"
