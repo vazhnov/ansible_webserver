@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  roles:
+    - websites_common
+    - nginx
+    - pip
+    # - user_access
+    # - apache
+    # - uwsgi
+    # - postgresql
+    # - mysql

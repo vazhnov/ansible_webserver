@@ -1,0 +1,36 @@
+# This is tricky molecule.yml to test all roles.
+# Example and description are here:
+# https://molecule.readthedocs.io/en/latest/examples.html#monolith-repo
+---
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: srv01.example.com
+    image: debian:latest
+    dns_servers:
+      - 10.66.0.4
+      - 10.66.0.6
+  - name: srv02.example.com
+    image: ubuntu:latest
+    dns_servers:
+      - 10.66.0.4
+      - 10.66.0.6
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: ../../roles
+    ANSIBLE_CONFIG: ../../ansible.cfg
+  lint:
+    name: ansible-lint
+  inventory:
+    links:
+      group_vars: ../../group_vars/
+      host_vars: ../host_vars/
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
