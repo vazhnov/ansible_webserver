@@ -1,0 +1,26 @@
+---
+stages:
+  - test
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip"
+
+cache:
+  paths:
+    - .pip/
+    - virtenv/
+
+before_script:
+  - apt-get update
+  - apt-get -Vy install python-pip docker.io
+
+molecule:
+  stage: test
+  tags:
+    - docker
+  script:
+    - python -V
+    - pip install ansible molecule docker
+    - ansible --version
+    - molecule --version
+    - molecule test
