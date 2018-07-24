@@ -19,6 +19,7 @@ molecule:
   tags:
     - docker
   script:
+    - chmod 0775 . molecule/default
     - python -V
     - pip install ansible molecule docker
     - ansible --version
