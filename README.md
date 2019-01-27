@@ -4,8 +4,8 @@ Not ready yet!!!
 
 ## Source
 
-* The main repository: https://gitlab.com/vazhnov/ansible\_webserver
-* Copy: https://github.com/vazhnov/ansible\_webserver
+* The main repository: https://gitlab.com/vazhnov/ansible_webserver
+* Copy: https://github.com/vazhnov/ansible_webserver
 
 ## Documentation
 
